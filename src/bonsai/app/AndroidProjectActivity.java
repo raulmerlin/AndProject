@@ -9,7 +9,8 @@ import android.widget.TabHost;
 public class AndroidProjectActivity extends TabActivity {
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
-	    super.onCreate(savedInstanceState);
+	    super.onCreate(savedInstanceState);	    
+	    
 	    setContentView(R.layout.main);
 
 	    Resources res = getResources(); // Resource object to get Drawables
@@ -40,5 +41,11 @@ public class AndroidProjectActivity extends TabActivity {
 	    tabHost.addTab(spec);
 
 	    tabHost.setCurrentTab(0);
+	    
+
+	    Intent startmessage = new Intent().setClass(this, StartActivity.class);
+	    startActivity(startmessage);
+	    
+
 	}
 }

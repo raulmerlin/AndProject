@@ -6,29 +6,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-public class MoreActivity extends Activity {
-	
-	private Button button1;
-	
+public class StartActivity extends Activity {
+
+	private Button start;
 	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.more);
-
-        button1= (Button)findViewById(R.id.donatebutton);
+        setContentView(R.layout.start);
+        
+        start= (Button)findViewById(R.id.startbutton);
         
     }
-    
-    public void goDonate(View v) {
+
+    public void goStart(View v) {
     	// Aqu’ sacar’amos el mensaje en el Toast para imprimirlo en un mensajito emergente
     	//Toast.makeText(this, "Donation Webpage", Toast.LENGTH_LONG).show();
-    	Uri uri = Uri.parse("http://www.merlitec.com");
-    	Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-    	startActivity(intent);
+    	finish();
 
     }
 }
