@@ -29,7 +29,7 @@ public class AndroidProjectActivity extends TabActivity {
 
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, CalendarActivity.class);
-	    spec = tabHost.newTabSpec("calendar").setIndicator("Calendar",
+	    spec = tabHost.newTabSpec("calendar").setIndicator("Today Tasks",
 	                      res.getDrawable(R.drawable.ic_tab_calendar))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
