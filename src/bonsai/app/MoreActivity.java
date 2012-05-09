@@ -31,4 +31,12 @@ public class MoreActivity extends Activity {
     	startActivity(intent);
 
     }
+    
+    public void doExit(View v) {
+    	finish();
+    }
+    
+    public void addNewBonsai(View v) {
+    	Toast.makeText(this, "You must buy full app to add more than one bonsai", Toast.LENGTH_SHORT).show();
+    }
 }

@@ -40,14 +40,14 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="SECOND INFO"
+        android:text="CONTACT"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Second info text"
+        android:text="App made by Raul de Pablos Martin and Ruben Valero Garcia"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
     <Button
@@ -56,41 +56,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Second button"
-        android:onClick=""/>
-    
+        android:text="Contact us"/>
+        
     <View
         android:layout_width="wrap_content"
         android:layout_height="2dip"
         android:background="#FF909090" />
     
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="THIRD INFO"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Text for the third information"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
-
     <Button
         android:id="@+id/donatebutton"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="ThirdButton"
-        android:onClick=""/>
-    
-    <View
-        android:layout_width="wrap_content"
-        android:layout_height="2dip"
-        android:background="#FF909090" />
+        android:layout_marginTop="10dp"
+        android:text="BUY FULL VERSION" />
 
 </LinearLayout>
 
@@ -103,23 +83,26 @@
 <LinearLayout
      android:id="@+id/footer"
      android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
+     android:layout_height="50dp"
      android:orientation="horizontal"
      android:layout_gravity="bottom|center"
      style="@android:style/ButtonBar"
      android:gravity="bottom|center">
 
-    <Button android:id="@+id/saveButton" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_weight="1"
-        android:text="Button1" />
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Add a new Bonsai" android:onClick="addNewBonsai"/>
 
-    <Button android:id="@+id/cancelButton" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_weight="1"
-        android:text="Button2" />
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Exit" android:onClick="doExit"/>
 
-    <Button android:id="@+id/cancelButton" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_weight="1"
-        android:text="Button3" />
 </LinearLayout>
 
 

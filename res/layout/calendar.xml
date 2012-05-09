@@ -118,7 +118,7 @@
 <LinearLayout
      android:id="@+id/footer"
      android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
+     android:layout_height="50dp"
      android:orientation="horizontal"
      android:layout_gravity="bottom|center"
      style="@android:style/ButtonBar"
