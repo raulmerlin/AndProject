@@ -20,40 +20,24 @@
         </activity>
     
         <activity
-            android:name=".BonsaiActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.BONSAI" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".BonsaiActivity">
         </activity>
-            
+                
         <activity
-            android:name=".CalendarActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.CALENDAR" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".EditBonsaiActivity" >
         </activity>
         
         <activity
-            android:name=".MoreActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MORE" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".CalendarActivity" >
+        </activity>
+        
+        <activity
+            android:name=".MoreActivity" >
         </activity>
         
                 
         <activity
-            android:name=".StartActivity"
-            android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.START" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:name=".StartActivity" >
         </activity>
         
     </application>

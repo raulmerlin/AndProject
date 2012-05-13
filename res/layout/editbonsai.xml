@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+<LinearLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+  	  	android:stretchColumns="2" >
+
+     <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Name"
+            android:padding="3dip" />
+
+        <EditText
+            android:id="@+id/editName" >
+
+            <requestFocus />
+        </EditText>
+     </TableRow>
+     
+     <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Family"
+            android:padding="3dip" />
+
+        <EditText
+            android:id="@+id/editFamily" >
+
+            <requestFocus />
+        </EditText>
+     </TableRow>
+     
+     <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Age"
+            android:padding="3dip" />
+
+        <EditText
+            android:id="@+id/editAge" >
+
+            <requestFocus />
+        </EditText>
+     </TableRow>
+     <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Height"
+            android:padding="3dip" />
+
+        <EditText
+            android:id="@+id/editHeight" >
+
+            <requestFocus />
+        </EditText>
+     </TableRow>
+     
+     <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Photo"
+            android:padding="3dip" />
+
+        <EditText
+            android:id="@+id/editPhoto" >
+
+            <requestFocus />
+        </EditText>
+     </TableRow>
+     
+     <TableRow>
+        <TextView
+            android:layout_column="1"
+            android:text="Situation"
+            android:padding="3dip" />
+
+        <EditText
+            android:id="@+id/editSituation" >
+
+            <requestFocus />
+        </EditText>
+     </TableRow>
+     
+     
+
+    <View
+        android:layout_height="1dip"
+        android:background="#FF909090" />
+
+    </TableLayout>
+
+</LinearLayout>
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true">
+        
+        
+<LinearLayout
+     android:id="@+id/footer"
+     android:layout_width="fill_parent"
+     android:layout_height="50dp"
+     android:orientation="horizontal"
+     android:layout_gravity="bottom|center"
+     style="@android:style/ButtonBar"
+     android:gravity="bottom|center">
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_save" />
+
+    <ImageButton
+        android:id="@+id/imageButton3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_delete" />
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:onClick="goCancel" />
+
+</LinearLayout>
+
+
+</RelativeLayout>
+
+</RelativeLayout>
