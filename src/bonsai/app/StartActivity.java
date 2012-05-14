@@ -9,7 +9,6 @@ import android.widget.Button;
 
 public class StartActivity extends Activity {
 
-	private Button start;
 	
     /** Called when the activity is first created. */
     @Override
@@ -17,7 +16,6 @@ public class StartActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.start);
         
-        start= (Button)findViewById(R.id.startbutton);
         
     }
 

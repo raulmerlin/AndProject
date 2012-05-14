@@ -19,9 +19,15 @@ public class AndroidProjectActivity extends TabActivity {
 	    Intent intent;  // Reusable Intent for each tab
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
-	    intent = new Intent().setClass(this, BonsaiActivity.class);
-
+	    intent = new Intent().setClass(this, SelectBonsaiActivity.class);
+	    spec = tabHost.newTabSpec("all").setIndicator("All",
+	                      res.getDrawable(R.drawable.ic_tab_selectbonsai))
+	                  .setContent(intent);
+	    tabHost.addTab(spec);
+	    
 	    // Initialize a TabSpec for each tab and add it to the TabHost
+	    
+	    intent = new Intent().setClass(this, BonsaiActivity.class);
 	    spec = tabHost.newTabSpec("bonsai").setIndicator("Bonsai",
 	                      res.getDrawable(R.drawable.ic_tab_bonsai))
 	                  .setContent(intent);

@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class EditBonsaiActivity extends Activity {
@@ -23,6 +24,7 @@ public class EditBonsaiActivity extends Activity {
 	private EditText editFamily;
 	private EditText editAge;
 	private EditText editHeight;
+	private TextView photoURLtext;
 	private Spinner editSituation;
 	
 	private String name;
@@ -51,6 +53,7 @@ public class EditBonsaiActivity extends Activity {
         editFamily= (EditText)findViewById(R.id.editFamily);
         editAge= (EditText)findViewById(R.id.editAge);
         editHeight= (EditText)findViewById(R.id.editHeight);
+        photoURLtext= (TextView)findViewById(R.id.photoURLtext);
         
         editSituation = (Spinner) findViewById(R.id.spinner1);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
@@ -91,8 +94,12 @@ public class EditBonsaiActivity extends Activity {
 
      if (resultCode == RESULT_OK){
       Uri targetUri = data.getData();
-  	  Toast.makeText(this, targetUri.toString(), Toast.LENGTH_LONG).show();
   	  photo = targetUri.toString();
+  	  if(photo.length() < 18) {
+	  photoURLtext.setText(photo);
+  	  } else {
+  		photoURLtext.setText("..." + photo.substring((photo.length() - 18), photo.length()));
+  	  }
      }
     }
     
