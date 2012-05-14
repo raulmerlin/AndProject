@@ -12,7 +12,7 @@ public class BonsaiActivity extends Activity {
 
     // Utilidad de manejo de Base de Datos
 	private BonsaiDbUtil bonsaidb;
-	private long bonsaiactual;
+	public long bonsaiactual;
 	
 	
 	
@@ -24,7 +24,7 @@ public class BonsaiActivity extends Activity {
         setContentView(R.layout.bonsai);
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
-        bonsaiactual = 0;
+        bonsaiactual = 1;
         try {
         	Cursor bonsai = bonsaidb.fetchBonsai(bonsaiactual);
             startManagingCursor(bonsai);
@@ -33,7 +33,7 @@ public class BonsaiActivity extends Activity {
         	Toast.makeText(this, "El bonsai actual es: " + nombre, Toast.LENGTH_LONG).show();
             
         } catch (Exception e) {
-        	Toast.makeText(this, "None bonsai created", Toast.LENGTH_LONG).show();
+        	Toast.makeText(this, "None Bonsai created. Create a new one", Toast.LENGTH_LONG).show();
         	
         }
         

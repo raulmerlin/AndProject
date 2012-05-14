@@ -1,6 +1,8 @@
 package bonsai.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
@@ -31,7 +33,9 @@ public class EditBonsaiActivity extends Activity {
 	private long last_pode;
 	private long last_water;
 	private long last_transplant;
-	private String situation;
+	private int situation;
+	
+	private AlertDialog alert;
 	
 	
 	
@@ -54,13 +58,13 @@ public class EditBonsaiActivity extends Activity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         editSituation.setAdapter(adapter);
         
-        
+    	createCancelAlert();
         
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
 
         try {
-        	Cursor bonsai = bonsaidb.fetchBonsai(0);
+        	Cursor bonsai = bonsaidb.fetchBonsai(1);
             startManagingCursor(bonsai);
             String nombre = bonsai.getString(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
@@ -99,14 +103,16 @@ public class EditBonsaiActivity extends Activity {
     	family_id =  Integer.parseInt(editFamily.getText().toString());
     	age =  Integer.parseInt(editAge.getText().toString());
     	height =  Integer.parseInt(editHeight.getText().toString());
-    	situation = editSituation.getSelectedItem().toString();
+    	situation = Integer.parseInt(editSituation.getSelectedItem().toString());
     	} catch(Exception e) {
     		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
     	}
-    	if((name.length() > 1) && (situation != null)) {
+    	if((name.length() > 1)) {
+    		bonsaidb.createBonsai(name, family_id, age, height, photo, 0, 0, 0, situation);
     		Toast.makeText(this, name + " changed.", Toast.LENGTH_LONG).show();
     		finish();
     	} else {
+    		Toast.makeText(this, "Please fill all data", Toast.LENGTH_LONG).show();
     	}
     }
     
@@ -116,7 +122,24 @@ public class EditBonsaiActivity extends Activity {
     }
     
     public void goCancel(View v) {
-    	Toast.makeText(this, "Canceled", Toast.LENGTH_LONG).show();
-    	finish();
+    	alert.show();
+    }
+    
+    private void createCancelAlert() {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Are you sure you want to cancel?")
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                EditBonsaiActivity.this.finish();
+    	           }
+    	       })
+    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                dialog.cancel();
+    	           }
+    	       });
+
+    	alert = builder.create();
     }
 }

@@ -58,7 +58,7 @@ public class BonsaiDbUtil {
     private static final String DATABASE_CREATE =
         "create table bonsais (_id integer primary key autoincrement, "
         + "name string not null, family_id integer not null, " +
-        "age integer not null, heigth integer not null, " +
+        "age integer not null, height integer not null, " +
         "photo string not null, last_pode timestamp not null, " +
         "last_water timestamp not null, last_trasplant timestamp not null, " +
         "situation integer not null);";
