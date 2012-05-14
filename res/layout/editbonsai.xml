@@ -34,8 +34,7 @@
 
         <EditText
             android:id="@+id/editFamily" >
-
-            <requestFocus />
+            
         </EditText>
      </TableRow>
      
@@ -46,9 +45,9 @@
             android:padding="3dip" />
 
         <EditText
-            android:id="@+id/editAge" >
+            android:id="@+id/editAge"
+            android:inputType="number" >
 
-            <requestFocus />
         </EditText>
      </TableRow>
      <TableRow>
@@ -58,9 +57,9 @@
             android:padding="3dip" />
 
         <EditText
-            android:id="@+id/editHeight" >
+            android:id="@+id/editHeight"
+            android:inputType="number" >
 
-            <requestFocus />
         </EditText>
      </TableRow>
      
@@ -70,11 +69,12 @@
             android:text="Photo"
             android:padding="3dip" />
 
-        <EditText
-            android:id="@+id/editPhoto" >
-
-            <requestFocus />
-        </EditText>
+        <Button
+            android:id="@+id/button1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Image" android:onClick="selectImage"/>
+        
      </TableRow>
      
      <TableRow>
@@ -83,11 +83,11 @@
             android:text="Situation"
             android:padding="3dip" />
 
-        <EditText
-            android:id="@+id/editSituation" >
+        <Spinner
+            android:id="@+id/spinner1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-            <requestFocus />
-        </EditText>
      </TableRow>
      
      
@@ -95,6 +95,7 @@
     <View
         android:layout_height="1dip"
         android:background="#FF909090" />
+
 
     </TableLayout>
 
@@ -120,14 +121,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_save" />
+        android:src="@android:drawable/ic_menu_save"
+        android:onClick="goSave" />
 
     <ImageButton
         android:id="@+id/imageButton3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_delete" />
+        android:src="@android:drawable/ic_menu_delete"
+        android:onClick="goDelete" />
 
     <ImageButton
         android:id="@+id/imageButton2"
