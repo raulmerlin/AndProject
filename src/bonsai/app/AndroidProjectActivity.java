@@ -3,13 +3,34 @@ package bonsai.app;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TabHost;
 
 public class AndroidProjectActivity extends TabActivity {
+	
+	public static long bonsaiactual;
+	public static boolean iamediting;
+	
+    // Utilidad de manejo de Base de Datos
+	private BonsaiDbUtil bonsaidb;
+	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);	    
+	    
+
+        bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
+        bonsaidb.open();
+    	Cursor bonsai = bonsaidb.fetchAllBonsais();
+    	bonsai.moveToLast();
+    	try {
+    		bonsaiactual = bonsai.getInt(
+                bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
+    	} catch (Exception e) {
+    		bonsaiactual = 0;
+    	}
+	    iamediting = false;
 	    
 	    setContentView(R.layout.main);
 

@@ -62,15 +62,6 @@
         android:layout_width="wrap_content"
         android:layout_height="2dip"
         android:background="#FF909090" />
-    
-    <Button
-        android:id="@+id/donatebutton"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="BUY FULL VERSION" />
 
 </LinearLayout>
 
@@ -94,7 +85,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Add a new Bonsai" android:onClick="addNewBonsai"/>
+        android:text="Buy Full Version" android:onClick="buyFullVersion"/>
 
     <Button
         android:id="@+id/cancelButton"

@@ -13,7 +13,7 @@
         android:layout_height="138dp" >
 
         <ImageButton
-            android:id="@+id/imageButton1"
+            android:id="@+id/bonsaiImage"
             android:layout_width="125dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="10dp"
@@ -28,17 +28,17 @@
             android:orientation="vertical" >
             
             <TextView
-            android:id="@+id/textView1"
+            android:id="@+id/textName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="NOMBRE"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textFamily"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Serissa Phoetida"
+                android:text="Especie"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <AnalogClock
@@ -92,7 +92,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_close_clear_cancel" />
+        android:src="@android:drawable/ic_menu_agenda" />
+
+    <ImageButton
+        android:id="@+id/imageButton4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_myplaces" />
+
+    <ImageButton
+        android:id="@+id/imageButton5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:src="@android:drawable/ic_menu_rotate" />
 
             <ImageButton
                 android:id="@+id/imageButton2"

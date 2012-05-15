@@ -41,7 +41,7 @@ public class BonsaiDbUtil {
     public static final String KEY_FAMILY_ID = "family_id";
     public static final String KEY_AGE = "age";
     public static final String KEY_HEIGHT = "height";
-    public static final String KEY_PHOTO = "photo";
+    public static final String KEY_PHOTO = "photourl";
     public static final String KEY_LAST_PODE = "last_pode";
     public static final String KEY_LAST_WATER = "last_water";
     public static final String KEY_LAST_TRASPLANT = "last_trasplant";
@@ -56,16 +56,14 @@ public class BonsaiDbUtil {
      * Database creation sql statement
      */
     private static final String DATABASE_CREATE =
-        "create table bonsais (_id integer primary key autoincrement, "
-        + "name string not null, family_id integer not null, " +
-        "age integer not null, height integer not null, " +
-        "photo string not null, last_pode timestamp not null, " +
-        "last_water timestamp not null, last_trasplant timestamp not null, " +
-        "situation integer not null);";
+        "create table bonsais(_id integer primary key autoincrement, "
+        + "name string not null, family_id integer not null, age, height integer not null, "
+        + "photourl string not null, last_pode integer not null, last_water integer not null, "
+        + "last_trasplant integer not null, situation integer not null);";
 
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "bonsais";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 6;
 
     private final Context mCtx;
 
@@ -79,6 +77,7 @@ public class BonsaiDbUtil {
         public void onCreate(SQLiteDatabase db) {
         										// En la creacion de la clase
             db.execSQL(DATABASE_CREATE);		// crea la base de datos
+
         }
 
         @Override
@@ -155,7 +154,7 @@ public class BonsaiDbUtil {
      * @param rowId id of note to delete
      * @return true if deleted, false otherwise
      */
-    public boolean deleteNote(long rowId) {
+    public boolean deleteBonsai(long rowId) {
 
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -167,8 +166,9 @@ public class BonsaiDbUtil {
      */
     public Cursor fetchAllBonsais() {
 
-        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID, KEY_NAME,
-                KEY_FAMILY_ID}, null, null, null, null, null);
+        return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID,
+                KEY_NAME, KEY_FAMILY_ID, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
+                KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, null, null, null, null, null);
     }
 
     /**
@@ -183,15 +183,16 @@ public class BonsaiDbUtil {
         Cursor mCursor =
 
             mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                    KEY_NAME, KEY_FAMILY_ID}, KEY_ROWID + "=" + rowId, null,
+                    KEY_NAME, KEY_FAMILY_ID, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
+                    KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, KEY_ROWID + "=" + rowId, null,
                     null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
         }
         return mCursor;
-
     }
-
+    
+    
     /**
      * Update the note using the details provided. The note to be updated is
      * specified using the rowId, and it is altered to use the title and body

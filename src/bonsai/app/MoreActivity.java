@@ -36,7 +36,7 @@ public class MoreActivity extends Activity {
     	finish();
     }
     
-    public void addNewBonsai(View v) {
-    	Toast.makeText(this, "You must buy full app to add more than one bonsai", Toast.LENGTH_SHORT).show();
+    public void buyFullVersion(View v) {
+    	Toast.makeText(this, "Here will be the link to buy full version", Toast.LENGTH_SHORT).show();
     }
 }

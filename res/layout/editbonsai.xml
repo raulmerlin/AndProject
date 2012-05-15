@@ -3,163 +3,176 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-<LinearLayout
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
 
-    <TableLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-  	  	android:stretchColumns="2" >
-
-     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Name"
-            android:padding="3dip" />
-
-        <EditText
-            android:id="@+id/editName" >
-
-            <requestFocus />
-        </EditText>
-     </TableRow>
-     
-     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Family"
-            android:padding="3dip" />
-
-        <EditText
-            android:id="@+id/editFamily" >
-            
-        </EditText>
-     </TableRow>
-     
-     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Age"
-            android:padding="3dip" />
-
-        <EditText
-            android:id="@+id/editAge"
-            android:inputType="number" >
-
-        </EditText>
-     </TableRow>
-     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Height"
-            android:padding="3dip" />
-
-        <EditText
-            android:id="@+id/editHeight"
-            android:inputType="number" >
-
-        </EditText>
-     </TableRow>
-     
-     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Photo"
-            android:padding="3dip" />
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" >
 
-            <TextView
-                android:id="@+id/photoURLtext"
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:stretchColumns="2" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="Name" />
+
+                    <EditText android:id="@+id/editName"
+                        android:layout_height="wrap_content">
+
+                    </EditText>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="Family" />
+
+                    <EditText android:id="@+id/editFamily" 
+                        android:inputType="number" 
+                        android:layout_height="wrap_content">
+                    </EditText>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="Age" />
+
+                    <EditText android:id="@+id/editAge"
+                        android:inputType="number" 
+                        android:layout_height="wrap_content">
+                    </EditText>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="Height" />
+
+                    <EditText android:id="@+id/editHeight"
+                        android:inputType="number" 
+                        android:layout_height="wrap_content">
+                    </EditText>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="Photo" />
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" >
+
+                        <TextView
+                            android:id="@+id/photoURLtext"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+
+                        <Button
+                            android:id="@+id/button1"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:onClick="selectImage"
+                            android:text="Select"/>
+
+                        <Button
+                            android:id="@+id/button2"
+                            style="?android:attr/buttonStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Delete"
+                            android:onClick="deleteImage" />
+
+                    </LinearLayout>
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_column="1"
+                        android:padding="3dip"
+                        android:text="Situation" />
+
+                    <Spinner
+                        android:id="@+id/spinner1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </TableRow>
+
+                <View
+                    android:layout_height="1dip"
+                    android:background="#FF909090" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="45dp">
+    </LinearLayout>
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+        <LinearLayout
+            android:id="@+id/footer"
+            style="@android:style/ButtonBar"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|center"
+            android:gravity="bottom|center"
+            android:orientation="horizontal" >
+
+            <ImageButton
+                android:id="@+id/imageButton1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Photo URL text"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:layout_weight="1"
+                android:onClick="goSave"
+                android:src="@android:drawable/ic_menu_save" />
 
+            <ImageButton
+                android:id="@+id/imageButton3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="goDelete"
+                android:src="@android:drawable/ic_menu_delete" />
 
-                <Button
-                    android:id="@+id/button1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:layout_alignParentTop="true"
-                    android:onClick="selectImage"
-                    android:text="Select Image" />
-
-
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:onClick="goCancel"
+                android:src="@android:drawable/ic_menu_close_clear_cancel" />
         </LinearLayout>
-        
-     </TableRow>
-     
-     <TableRow>
-        <TextView
-            android:layout_column="1"
-            android:text="Situation"
-            android:padding="3dip" />
-
-        <Spinner
-            android:id="@+id/spinner1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-     </TableRow>
-     
-     
-
-    <View
-        android:layout_height="1dip"
-        android:background="#FF909090" />
-
-    </TableLayout>
-
-</LinearLayout>
-
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignParentBottom="true">
-        
-        
-<LinearLayout
-     android:id="@+id/footer"
-     android:layout_width="fill_parent"
-     android:layout_height="50dp"
-     android:orientation="horizontal"
-     android:layout_gravity="bottom|center"
-     style="@android:style/ButtonBar"
-     android:gravity="bottom|center">
-
-    <ImageButton
-        android:id="@+id/imageButton1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_save"
-        android:onClick="goSave" />
-
-    <ImageButton
-        android:id="@+id/imageButton3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_delete"
-        android:onClick="goDelete" />
-
-    <ImageButton
-        android:id="@+id/imageButton2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:onClick="goCancel" />
-
-</LinearLayout>
-
-
-</RelativeLayout>
+    </RelativeLayout>
 
 </RelativeLayout>

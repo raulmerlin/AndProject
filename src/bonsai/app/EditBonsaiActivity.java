@@ -2,12 +2,15 @@ package bonsai.app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +41,8 @@ public class EditBonsaiActivity extends Activity {
 	private int situation;
 	
 	private AlertDialog alert;
+	private AlertDialog deletealert;
+	
 	
 	
 	
@@ -47,7 +52,6 @@ public class EditBonsaiActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editbonsai);
-        
 
         editName= (EditText)findViewById(R.id.editName);
         editFamily= (EditText)findViewById(R.id.editFamily);
@@ -62,19 +66,42 @@ public class EditBonsaiActivity extends Activity {
         editSituation.setAdapter(adapter);
         
     	createCancelAlert();
+    	createDeleteAlert();
         
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
 
-        try {
-        	Cursor bonsai = bonsaidb.fetchBonsai(1);
+        if(AndroidProjectActivity.iamediting) try {
+        	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
             startManagingCursor(bonsai);
-            String nombre = bonsai.getString(
+            
+            name = bonsai.getString(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
-        	Toast.makeText(this, "El bonsai actual es: " + nombre, Toast.LENGTH_LONG).show();
+            editName.setText(name);
+
+            family_id = bonsai.getInt(
+                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY_ID));
+            editFamily.setText(String.valueOf(family_id));
+            
+            age = bonsai.getInt(
+                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE));
+            editAge.setText(String.valueOf(age));
+
+            height = bonsai.getInt(
+                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
+            editHeight.setText(String.valueOf(height));
+
+            photo = bonsai.getString(
+                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_PHOTO));
+        	 if(photo.length() < 18) {
+        		photoURLtext.setText(photo);
+        	 } else {
+        	  	photoURLtext.setText("..." + photo.substring((photo.length() - 18), photo.length()));
+        	 }
+        	 
             
         } catch (Exception e) {
-        	Toast.makeText(this, "None bonsai created", Toast.LENGTH_LONG).show();
+        	Toast.makeText(this, "None bonsai created: " + e.toString(), Toast.LENGTH_LONG).show();
         	
         }
         
@@ -85,6 +112,12 @@ public class EditBonsaiActivity extends Activity {
     	   Intent intent = new Intent(Intent.ACTION_PICK,
     	     android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
     	   startActivityForResult(intent, 0);
+    }
+    
+    public void deleteImage(View v) {
+    	   // TODO Auto-generated method stub
+    	   photo = "";
+    	   photoURLtext.setText(photo);
     }
 
     @Override
@@ -105,27 +138,34 @@ public class EditBonsaiActivity extends Activity {
     
     
     public void goSave(View v) {
-    	try {
+    	
+    		try {
     	name =  editName.getText().toString();
     	family_id =  Integer.parseInt(editFamily.getText().toString());
     	age =  Integer.parseInt(editAge.getText().toString());
     	height =  Integer.parseInt(editHeight.getText().toString());
     	situation = Integer.parseInt(editSituation.getSelectedItem().toString());
+    	if(photoURLtext.getText().length() < 2) photo = "";
     	} catch(Exception e) {
     		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
     	}
     	if((name.length() > 1)) {
-    		bonsaidb.createBonsai(name, family_id, age, height, photo, 0, 0, 0, situation);
-    		Toast.makeText(this, name + " changed.", Toast.LENGTH_LONG).show();
-    		finish();
+    		if(AndroidProjectActivity.iamediting) {
+    			bonsaidb.updateBonsai(AndroidProjectActivity.bonsaiactual, name, family_id, age, height, photo, 0, 0, 0, situation);
+    			Toast.makeText(this, name + " changed.", Toast.LENGTH_LONG).show();
+    			finish();
+    		} else {
+    			AndroidProjectActivity.bonsaiactual = bonsaidb.createBonsai(name, family_id, age, height, photo, 0, 0, 0, situation);
+    			Toast.makeText(this, name + " created.", Toast.LENGTH_LONG).show();
+    			finish();
+    		}
     	} else {
     		Toast.makeText(this, "Please fill all data", Toast.LENGTH_LONG).show();
     	}
     }
     
     public void goDelete(View v) {
-    	Toast.makeText(this, "DELETE - Still not Implemented", Toast.LENGTH_LONG).show();
-    	finish();
+        	deletealert.show();
     }
     
     public void goCancel(View v) {
@@ -149,4 +189,30 @@ public class EditBonsaiActivity extends Activity {
 
     	alert = builder.create();
     }
+    
+    private void createDeleteAlert() {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setMessage("Are you sure you want to delete?")
+    	       .setCancelable(false)
+    	       .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	        	   if(AndroidProjectActivity.iamediting = true)
+    	                bonsaidb.deleteBonsai(AndroidProjectActivity.bonsaiactual);
+    	                EditBonsaiActivity.this.finish();
+    	           }
+    	       })
+    	       .setNegativeButton("No", new DialogInterface.OnClickListener() {
+    	           public void onClick(DialogInterface dialog, int id) {
+    	                dialog.cancel();
+    	           }
+    	       });
+
+    	deletealert = builder.create();
+    }
+    
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        return false;
+    }
+
 }
