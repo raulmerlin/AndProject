@@ -9,6 +9,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 
 public class XmlHandler extends DefaultHandler {
+	int n=0;
 	private List<Weather> weathers= new ArrayList<Weather>();
     private Weather weatherActual;
 
@@ -33,7 +34,15 @@ public class XmlHandler extends DefaultHandler {
     int high = Integer.parseInt(atts.getValue(0));
     System.out.println("High: " + high);
     weatherActual.setTempMin(high);
+    }
+    if(qName.compareToIgnoreCase("icon") == 0) {
+    	if(n>0){
+    String icon = atts.getValue(0);
+    System.out.println("icon " + icon);
+    weatherActual.setIcon(icon);
     weathers.add(weatherActual);
+    	}
+    	n++;
     }
     }
     }

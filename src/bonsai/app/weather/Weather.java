@@ -5,6 +5,7 @@ public class Weather {
 	private int tempMax;
     private int tempMin;
     private double tempMediaC;
+    private String icon;
 	public int getTempMax() {
 		return tempMax;
 	}
@@ -23,6 +24,12 @@ public class Weather {
 		tempMediaC=5*tempMedia/9;
 		return tempMediaC;
 		
+	}
+	public String getIcon() {
+		return icon;
+	}
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 	
 	

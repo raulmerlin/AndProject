@@ -53,12 +53,12 @@
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <ImageView
-                    android:id="@+id/imageView1"
+                    android:id="@+id/imageWeather"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_weight="0.48"
-                    android:src="@android:drawable/btn_star_big_on" />
+                   />
 
             </LinearLayout>
 

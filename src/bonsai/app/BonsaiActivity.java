@@ -26,11 +26,13 @@ public class BonsaiActivity extends Activity {
 	private TextView family;
 	private ImageView photo;
 	
+	
 	//Será un campo de la base de datos que se rellena al crear un bonsai,
 	//con el formato códigoPostal,Codígo Pais o códigoPostal,Pais
 	//de momento para el ejemplo pruebo con:
 	private String location = "28040,ES";
 	private TextView textWeather;
+	private ImageView weatherIcon;
 
 	
     /** Called when the activity is first created. */
@@ -43,7 +45,9 @@ public class BonsaiActivity extends Activity {
         name = (TextView)findViewById(R.id.textName);
         family = (TextView)findViewById(R.id.textFamily);
         photo = (ImageView)findViewById(R.id.bonsaiImage);
+        //nuevas añadidas
         textWeather =(TextView)findViewById(R.id.textweather);
+        weatherIcon = (ImageView)findViewById(R.id.imageWeather);
         
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
@@ -68,6 +72,13 @@ public class BonsaiActivity extends Activity {
             List<Weather> weather = saxparser.parse();
             Weather w=weather.get(0);
             textWeather.setText(Double.toString(w.getTempMedia())+"º");
+            //debo obtener el nombre del icono que tengo en la base de datos
+            String s=w.getIcon();
+            s=s.replaceAll("/ig/images/weather/", "");
+            s=s.replaceAll(".gif", "");
+     //       System.out.println("El nombre del icono que me queda es "+s);
+       //     weatherIcon.setImageResurce();
+            
         	
             
         } catch (Exception e) {
