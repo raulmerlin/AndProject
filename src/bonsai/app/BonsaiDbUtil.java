@@ -61,6 +61,12 @@ public class BonsaiDbUtil {
         + "name string not null, family string not null, age integer not null, height integer not null, "
         + "photourl string not null, last_pode integer not null, last_water integer not null, "
         + "last_trasplant integer not null, localization string not null, situation string not null);";
+    
+    private static final String FAMILY_DATABASE_CREATE =
+            "create table familys(_id integer primary key autoincrement, "
+            + "family string not null, pode_frecuency integer not null, water_frecuency integer not null, "
+            + "transplant_frecuency integer not null, situation string not null);";
+
 
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "bonsais";
@@ -78,6 +84,20 @@ public class BonsaiDbUtil {
         public void onCreate(SQLiteDatabase db) {
         										// En la creacion de la clase
             db.execSQL(DATABASE_CREATE);		// crea la base de datos
+
+			// En la creacion de la clase
+            db.execSQL(FAMILY_DATABASE_CREATE);		// crea la base de datos
+            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+            		"Values ('Serissa Phoetida', '" + 120*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
+            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+            		"Values ('Ficus Retusa', '" + 90*24 + "', '" + 4*24 + "', '" + 630*24 + "', 'Interior') ");
+			db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+					"Values ('Olea Europaea', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
+			db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+					"Values ('Carmona Mircophilla', '" + 60*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
+			db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+					"Values ('Picea Glauca Conica', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
+
 
         }
 
@@ -132,7 +152,7 @@ public class BonsaiDbUtil {
      * @param body the body of the note
      * @return rowId or -1 if failed
      */
-    public long createBonsai(String name, String family, int age, int height, 
+    public long createBonsai(String name, String family, long age, int height, 
     		String photo, long last_pode, long last_water, long last_trasplant, String localization, String situation) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
@@ -205,20 +225,35 @@ public class BonsaiDbUtil {
      * @param body value to set note body to
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateBonsai(long rowId, String name, String family, int age, int height, 
-    		String photo, long last_pode, long last_water, long last_trasplant, String localization, String situation) {
+    public boolean updateBonsai(long rowId, String name, String family, long age, int height, 
+    		String photo, String localization, String situation) {
         ContentValues args = new ContentValues();
         args.put(KEY_NAME, name);
         args.put(KEY_FAMILY, family);
         args.put(KEY_AGE, age);
         args.put(KEY_HEIGHT, height);
         args.put(KEY_PHOTO, photo);
-        args.put(KEY_LAST_PODE, last_pode);
-        args.put(KEY_LAST_WATER, last_water);
-        args.put(KEY_LAST_TRASPLANT, last_trasplant);
         args.put(KEY_LOCALIZATION, localization);
         args.put(KEY_SITUATION, situation);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
+    
+    /**
+     * Update the note using the details provided. The note to be updated is
+     * specified using the rowId, and it is altered to use the title and body
+     * values passed in
+     * 
+     * @param rowId id of note to update
+     * @param title value to set note title to
+     * @param body value to set note body to
+     * @return true if the note was successfully updated, false otherwise
+     */
+    public boolean waterBonsai(long rowId, long last_water) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_LAST_WATER, last_water);
+
+        return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+    
 }

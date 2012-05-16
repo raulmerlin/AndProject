@@ -45,16 +45,12 @@ public class FamilyDbUtil {
     
     
     private static final String TAG = "FamilyDbAdapter";
-    private DatabaseHelper mDbHelper;
+    private FamDatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
     /**
      * Database creation sql statement
      */
-    private static final String DATABASE_CREATE =
-        "create table familys(_id integer primary key autoincrement, "
-        + "family string not null, pode_frecuency integer not null, water_frecuency integer not null, "
-        + "transplant_frecuency integer not null, situation string not null);";
 
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "familys";
@@ -62,27 +58,14 @@ public class FamilyDbUtil {
 
     private final Context mCtx;
 
-    private static class DatabaseHelper extends SQLiteOpenHelper {
+    private static class FamDatabaseHelper extends SQLiteOpenHelper {
 
-        DatabaseHelper(Context context) {
+        FamDatabaseHelper(Context context) {
             super(context, DATABASE_NAME, null, DATABASE_VERSION);
         }
 
         @Override
         public void onCreate(SQLiteDatabase db) {
-        										// En la creacion de la clase
-            db.execSQL(DATABASE_CREATE);		// crea la base de datos
-            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-            		"Values ('Serissa Phoetida', '" + 120*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
-            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-            		"Values ('Ficus Retusa', '" + 90*24 + "', '" + 4*24 + "', '" + 630*24 + "', 'Interior') ");
-            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-            		"Values ('Olea Europaea', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
-            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-            		"Values ('Carmona Mircophilla', '" + 60*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
-            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-            		"Values ('Picea Glauca Conica', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
-
 
         }
         
@@ -117,7 +100,7 @@ public class FamilyDbUtil {
      * @throws SQLException if the database could be neither opened or created
      */
     public FamilyDbUtil open() throws SQLException {
-        mDbHelper = new DatabaseHelper(mCtx);
+        mDbHelper = new FamDatabaseHelper(mCtx);
         mDb = mDbHelper.getWritableDatabase();
         return this;
     }
@@ -194,6 +177,26 @@ public class FamilyDbUtil {
             mCursor.moveToFirst();
         }
         return mCursor;
+    }
+    
+
+    /**
+     * Return a Cursor positioned at the note that matches the given rowId
+     * 
+     * @param rowId id of note to retrieve
+     * @return Cursor positioned to matching note, if found
+     * @throws SQLException if note could not be found/retrieved
+     */
+    public Cursor fetchFamilybyName(String name) throws SQLException {
+
+            Cursor mCursor = mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
+                    		KEY_FAMILY, KEY_PODE_FRECUENCY, KEY_WATER_FRECUENCY, 
+                            KEY_TRANSPLANT_FRECUENCY, KEY_SITUATION}, KEY_FAMILY + " LIKE '" + name + "'", null,
+                            null, null, null, null);
+                if (mCursor != null) {
+                    mCursor.moveToFirst();
+                }
+    		return mCursor;
     }
     
     

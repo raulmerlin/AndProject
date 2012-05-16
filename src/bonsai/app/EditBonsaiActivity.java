@@ -1,6 +1,7 @@
 package bonsai.app;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,7 +43,7 @@ public class EditBonsaiActivity extends Activity {
 	
 	private String name;
 	private String family;
-	private int age;
+	private long age;
 	private int height;
 	private String photo;
 	private String localization;
@@ -101,9 +102,10 @@ public class EditBonsaiActivity extends Activity {
             name = bonsai.getString(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
             editName.setText(name);
-            
-            age = bonsai.getInt(
-                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE));
+
+			long date = new Date().getTime() / (1000*60*60);
+            age = (date - bonsai.getLong(
+                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365 * 24);
             editAge.setText(String.valueOf(age));
 
             height = bonsai.getInt(
@@ -166,7 +168,7 @@ public class EditBonsaiActivity extends Activity {
     		try {
     	name =  editName.getText().toString();
     	family =  editFamily.getSelectedItem().toString();
-    	age =  Integer.parseInt(editAge.getText().toString());
+    	age =  Long.parseLong(editAge.getText().toString());
     	height =  Integer.parseInt(editHeight.getText().toString());
     	situation = editSituation.getSelectedItem().toString();
     	localization = editpostCode.getText().toString() + "," + editCountry.getText().toString();
@@ -176,11 +178,13 @@ public class EditBonsaiActivity extends Activity {
     	}
     	if((name.length() > 1) && (family.length() > 1) && (situation.length()>1) && localization.length()>2) {
     		if(AndroidProjectActivity.iamediting) {
-    			bonsaidb.updateBonsai(AndroidProjectActivity.bonsaiactual, name, family, age, height, photo, 0, 0, 0, localization, situation);
+    			long date = (new Date().getTime()) / (1000*60*60);
+    			bonsaidb.updateBonsai(AndroidProjectActivity.bonsaiactual, name, family, (date - (age * 365 * 24)), height, photo, localization, situation);
     			Toast.makeText(this, name + " changed.", Toast.LENGTH_LONG).show();
     			finish();
     		} else {
-    			AndroidProjectActivity.bonsaiactual = bonsaidb.createBonsai(name, family, age, height, photo, 0, 0, 0, localization, situation);
+    			long date = new Date().getTime() / (1000*60*60);
+    			AndroidProjectActivity.bonsaiactual = bonsaidb.createBonsai(name, family, (date - (age * 365 * 24)), height, photo, 0, 0, 0, localization, situation);
     			Toast.makeText(this, name + " created.", Toast.LENGTH_LONG).show();
     			finish();
     		}
