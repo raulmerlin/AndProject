@@ -212,7 +212,8 @@ public class EditBonsaiActivity extends Activity {
     
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        return false;
+    	alert.show();
+    	return false;
     }
 
 }
