@@ -1,13 +1,10 @@
 package bonsai.app;
 
 
-import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -15,7 +12,6 @@ import android.widget.Toast;
 
 public class SelectBonsaiActivity extends ListActivity {
 	
-    private static final int INSERT_ID = Menu.FIRST;
     
     // Utilidad de manejo de Base de Datos
 	private BonsaiDbUtil bonsaidb;
@@ -37,9 +33,9 @@ public class SelectBonsaiActivity extends ListActivity {
         SimpleCursorAdapter bonsais = 
             new SimpleCursorAdapter(this, R.layout.bonsai_row, bonsaisCursor, from, to);
         setListAdapter(bonsais);
+
         
     }
-    
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);

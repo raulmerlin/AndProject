@@ -2,7 +2,6 @@ package bonsai.app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -10,9 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -31,13 +28,10 @@ public class EditBonsaiActivity extends Activity {
 	private Spinner editSituation;
 	
 	private String name;
-	private int family_id;
+	private String family;
 	private int age;
 	private int height;
 	private String photo;
-	private long last_pode;
-	private long last_water;
-	private long last_transplant;
 	private int situation;
 	
 	private AlertDialog alert;
@@ -79,9 +73,9 @@ public class EditBonsaiActivity extends Activity {
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
             editName.setText(name);
 
-            family_id = bonsai.getInt(
-                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY_ID));
-            editFamily.setText(String.valueOf(family_id));
+            family = bonsai.getString(
+                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY));
+            editFamily.setText(String.valueOf(family));
             
             age = bonsai.getInt(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE));
@@ -141,7 +135,7 @@ public class EditBonsaiActivity extends Activity {
     	
     		try {
     	name =  editName.getText().toString();
-    	family_id =  Integer.parseInt(editFamily.getText().toString());
+    	family =  editFamily.getText().toString();
     	age =  Integer.parseInt(editAge.getText().toString());
     	height =  Integer.parseInt(editHeight.getText().toString());
     	situation = Integer.parseInt(editSituation.getSelectedItem().toString());
@@ -151,11 +145,11 @@ public class EditBonsaiActivity extends Activity {
     	}
     	if((name.length() > 1)) {
     		if(AndroidProjectActivity.iamediting) {
-    			bonsaidb.updateBonsai(AndroidProjectActivity.bonsaiactual, name, family_id, age, height, photo, 0, 0, 0, situation);
+    			bonsaidb.updateBonsai(AndroidProjectActivity.bonsaiactual, name, family, age, height, photo, 0, 0, 0, situation);
     			Toast.makeText(this, name + " changed.", Toast.LENGTH_LONG).show();
     			finish();
     		} else {
-    			AndroidProjectActivity.bonsaiactual = bonsaidb.createBonsai(name, family_id, age, height, photo, 0, 0, 0, situation);
+    			AndroidProjectActivity.bonsaiactual = bonsaidb.createBonsai(name, family, age, height, photo, 0, 0, 0, situation);
     			Toast.makeText(this, name + " created.", Toast.LENGTH_LONG).show();
     			finish();
     		}
@@ -198,6 +192,13 @@ public class EditBonsaiActivity extends Activity {
     	           public void onClick(DialogInterface dialog, int id) {
     	        	   if(AndroidProjectActivity.iamediting = true)
     	                bonsaidb.deleteBonsai(AndroidProjectActivity.bonsaiactual);
+    	           	Cursor bonsai = bonsaidb.fetchAllBonsais();
+    	        	bonsai.moveToLast();
+    	        	try {
+    	        		AndroidProjectActivity.bonsaiactual = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
+    	        	} catch (Exception e) {
+    	        		AndroidProjectActivity.bonsaiactual=0;
+    	        	}
     	                EditBonsaiActivity.this.finish();
     	           }
     	       })

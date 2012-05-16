@@ -40,7 +40,6 @@
                         android:text="Family" />
 
                     <EditText android:id="@+id/editFamily" 
-                        android:inputType="number" 
                         android:layout_height="wrap_content">
                     </EditText>
                 </TableRow>

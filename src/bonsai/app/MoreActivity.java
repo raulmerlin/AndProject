@@ -5,12 +5,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
 public class MoreActivity extends Activity {
 	
-	private Button button1;
 	
 	
     /** Called when the activity is first created. */
@@ -18,8 +16,7 @@ public class MoreActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.more);
-
-        button1= (Button)findViewById(R.id.donatebutton);
+        
         
     }
     

@@ -38,7 +38,7 @@ public class BonsaiDbUtil {
 
     public static final String KEY_ROWID = "_id";
     public static final String KEY_NAME = "name";
-    public static final String KEY_FAMILY_ID = "family_id";
+    public static final String KEY_FAMILY = "family";
     public static final String KEY_AGE = "age";
     public static final String KEY_HEIGHT = "height";
     public static final String KEY_PHOTO = "photourl";
@@ -57,7 +57,7 @@ public class BonsaiDbUtil {
      */
     private static final String DATABASE_CREATE =
         "create table bonsais(_id integer primary key autoincrement, "
-        + "name string not null, family_id integer not null, age, height integer not null, "
+        + "name string not null, family string not null, age, height integer not null, "
         + "photourl string not null, last_pode integer not null, last_water integer not null, "
         + "last_trasplant integer not null, situation integer not null);";
 
@@ -131,11 +131,11 @@ public class BonsaiDbUtil {
      * @param body the body of the note
      * @return rowId or -1 if failed
      */
-    public long createBonsai(String name, int family_id, int age, int height, 
+    public long createBonsai(String name, String family, int age, int height, 
     		String photo, long last_pode, long last_water, long last_trasplant, int situation) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
-        initialValues.put(KEY_FAMILY_ID, family_id);
+        initialValues.put(KEY_FAMILY, family);
         initialValues.put(KEY_AGE, age);
         initialValues.put(KEY_HEIGHT, height);
         initialValues.put(KEY_PHOTO, photo);
@@ -167,7 +167,7 @@ public class BonsaiDbUtil {
     public Cursor fetchAllBonsais() {
 
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID,
-                KEY_NAME, KEY_FAMILY_ID, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
+                KEY_NAME, KEY_FAMILY, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
                 KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, null, null, null, null, null);
     }
 
@@ -183,7 +183,7 @@ public class BonsaiDbUtil {
         Cursor mCursor =
 
             mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                    KEY_NAME, KEY_FAMILY_ID, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
+                    KEY_NAME, KEY_FAMILY, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
                     KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, KEY_ROWID + "=" + rowId, null,
                     null, null, null, null);
         if (mCursor != null) {
@@ -203,11 +203,11 @@ public class BonsaiDbUtil {
      * @param body value to set note body to
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateBonsai(long rowId, String name, int family_id, int age, int height, 
+    public boolean updateBonsai(long rowId, String name, String family, int age, int height, 
     		String photo, long last_pode, long last_water, long last_trasplant, int situation) {
         ContentValues args = new ContentValues();
         args.put(KEY_NAME, name);
-        args.put(KEY_FAMILY_ID, family_id);
+        args.put(KEY_FAMILY, family);
         args.put(KEY_AGE, age);
         args.put(KEY_HEIGHT, height);
         args.put(KEY_PHOTO, photo);

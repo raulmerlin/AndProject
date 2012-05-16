@@ -7,8 +7,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +19,7 @@ public class BonsaiActivity extends Activity {
 	private BonsaiDbUtil bonsaidb;
 	private TextView name;
 	private TextView family;
-	private ImageButton photo;
+	private ImageView photo;
 	
 	
     /** Called when the activity is first created. */
@@ -32,7 +31,7 @@ public class BonsaiActivity extends Activity {
 
         name = (TextView)findViewById(R.id.textName);
         family = (TextView)findViewById(R.id.textFamily);
-        photo = (ImageButton)findViewById(R.id.bonsaiImage);
+        photo = (ImageView)findViewById(R.id.bonsaiImage);
         
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
@@ -42,7 +41,7 @@ public class BonsaiActivity extends Activity {
         	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
             startManagingCursor(bonsai);
             name.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME)));
-            family.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY_ID)));
+            family.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY)));
             String photouri = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_PHOTO));
             if(photouri.length() > 1)
             	photo.setImageURI(Uri.parse(photouri));
@@ -63,7 +62,7 @@ public class BonsaiActivity extends Activity {
          	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
              startManagingCursor(bonsai);
              name.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME)));
-             family.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY_ID)));
+             family.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY)));
              String photouri = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_PHOTO));
              if(photouri.length() > 1) {
              	photo.setImageURI(Uri.parse(photouri));
@@ -86,7 +85,7 @@ public class BonsaiActivity extends Activity {
     	try {
     	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
         startManagingCursor(bonsai);
-        String nombre = bonsai.getString(
+        bonsai.getString(
                 bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
     	AndroidProjectActivity.iamediting = true;
 	    Intent editAct = new Intent().setClass(this, EditBonsaiActivity.class);
