@@ -21,7 +21,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -39,9 +38,6 @@ public class EditBonsaiActivity extends Activity {
 	private TextView photoURLtext;
 	private Spinner editSituation;
 	private EditText editpostCode;
-	private EditText editCountry;
-	private Button btnpostCode;
-	private Button btnCountry;
 	
 	private String name;
 	private String family;
@@ -53,8 +49,6 @@ public class EditBonsaiActivity extends Activity {
 	private AlertDialog alert;
 	private AlertDialog deletealert;
 	
-
-	private static final int NOTIF_ALERTA_ID = 1;
 	private LocationManager locManager;
 	private LocationListener locListener;
 	
@@ -89,9 +83,6 @@ public class EditBonsaiActivity extends Activity {
         
 
         editpostCode=(EditText)findViewById(R.id.editPostCode);
-        editCountry=(EditText)findViewById(R.id.editCountry);
-        btnpostCode = (Button)findViewById(R.id.btnPostCode);
-        btnCountry = (Button)findViewById(R.id.btnCountry);
         
         
     	createCancelAlert();
@@ -265,11 +256,11 @@ public class EditBonsaiActivity extends Activity {
     	};
     	
     	locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-    	locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000000, 0, locListener);
-    	Location loc = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    	locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locListener);
+    	Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
     	if(loc == null) {
-        	locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000000, 0, locListener);
-        	loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        	locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locListener);
+        	loc = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
     	}
     	
     	return loc;
