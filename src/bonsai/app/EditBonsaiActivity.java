@@ -288,7 +288,7 @@ public class EditBonsaiActivity extends Activity {
         try {
 			List<Address> addresses = myloc.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
 	        ad = addresses.get(0);
-	        editpostCode.setText(ad.getPostalCode());
+	        editCountry.setText(ad.getCountryCode());
         } catch (IOException e) {
 			// TODO Auto-generated catch block
          	Toast.makeText(this, "Error trying to get country " + e.toString(), Toast.LENGTH_SHORT).show();
