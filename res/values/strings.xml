@@ -3,8 +3,15 @@
 
     <string name="app_name">"Bonsai Cares"</string>
     <string-array name="situation_array">
-        <item>1</item>
-        <item>2</item>
+        <item>Interior</item>
+        <item>Exterior</item>
+    </string-array>
+    <string-array name="family_array">
+        <item>Serissa Phoetida</item>
+        <item>Ficus Retusa</item>
+        <item>Olea Europaea</item>
+        <item>Carmona Microphilla</item>
+        <item>Picea Glauca Conica</item>
     </string-array>
     
     

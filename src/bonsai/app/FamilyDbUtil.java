@@ -34,21 +34,17 @@ import android.util.Log;
  * of using a collection of inner classes (which is less scalable and not
  * recommended).
  */
-public class BonsaiDbUtil {
+public class FamilyDbUtil {
 
     public static final String KEY_ROWID = "_id";
-    public static final String KEY_NAME = "name";
     public static final String KEY_FAMILY = "family";
-    public static final String KEY_AGE = "age";
-    public static final String KEY_HEIGHT = "height";
-    public static final String KEY_PHOTO = "photourl";
-    public static final String KEY_LAST_PODE = "last_pode";
-    public static final String KEY_LAST_WATER = "last_water";
-    public static final String KEY_LAST_TRASPLANT = "last_trasplant";
+    public static final String KEY_PODE_FRECUENCY = "pode_frecuency";
+    public static final String KEY_WATER_FRECUENCY= "water_frecuency";
+    public static final String KEY_TRANSPLANT_FRECUENCY = "transplant_frecuency";
     public static final String KEY_SITUATION = "situation";
     
     
-    private static final String TAG = "BonsaiDbAdapter";
+    private static final String TAG = "FamilyDbAdapter";
     private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
@@ -56,13 +52,12 @@ public class BonsaiDbUtil {
      * Database creation sql statement
      */
     private static final String DATABASE_CREATE =
-        "create table bonsais(_id integer primary key autoincrement, "
-        + "name string not null, family string not null, age integer not null, height integer not null, "
-        + "photourl string not null, last_pode integer not null, last_water integer not null, "
-        + "last_trasplant integer not null, situation string not null);";
+        "create table familys(_id integer primary key autoincrement, "
+        + "family string not null, pode_frecuency integer not null, water_frecuency integer not null, "
+        + "transplant_frecuency integer not null, situation string not null);";
 
     private static final String DATABASE_NAME = "data";
-    private static final String DATABASE_TABLE = "bonsais";
+    private static final String DATABASE_TABLE = "familys";
     private static final int DATABASE_VERSION = 6;
 
     private final Context mCtx;
@@ -77,16 +72,29 @@ public class BonsaiDbUtil {
         public void onCreate(SQLiteDatabase db) {
         										// En la creacion de la clase
             db.execSQL(DATABASE_CREATE);		// crea la base de datos
+            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+            		"Values ('Serissa Phoetida', '" + 120*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
+            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+            		"Values ('Ficus Retusa', '" + 90*24 + "', '" + 4*24 + "', '" + 630*24 + "', 'Interior') ");
+            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+            		"Values ('Olea Europaea', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
+            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+            		"Values ('Carmona Mircophilla', '" + 60*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
+            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+            		"Values ('Picea Glauca Conica', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
+
 
         }
+        
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "		// Al actualizar
                     + newVersion + ", which will destroy all old data");			// avisa
-            db.execSQL("DROP TABLE IF EXISTS bonsais");								// borra la tabla tasks
+            db.execSQL("DROP TABLE IF EXISTS familys");								// borra la tabla tasks
             onCreate(db);															// y crea otra
         }
+        
     }
 
     /**
@@ -95,7 +103,7 @@ public class BonsaiDbUtil {
      * 
      * @param ctx the Context within which to work
      */
-    public BonsaiDbUtil(Context ctx) {
+    public FamilyDbUtil(Context ctx) {
         this.mCtx = ctx;
     }
 
@@ -108,7 +116,7 @@ public class BonsaiDbUtil {
      *         initialization call)
      * @throws SQLException if the database could be neither opened or created
      */
-    public BonsaiDbUtil open() throws SQLException {
+    public FamilyDbUtil open() throws SQLException {
         mDbHelper = new DatabaseHelper(mCtx);
         mDb = mDbHelper.getWritableDatabase();
         return this;
@@ -131,17 +139,13 @@ public class BonsaiDbUtil {
      * @param body the body of the note
      * @return rowId or -1 if failed
      */
-    public long createBonsai(String name, String family, int age, int height, 
-    		String photo, long last_pode, long last_water, long last_trasplant, String situation) {
+    public long createFamily(String family, long pode_frecuency, long water_frecuency,
+    		long transplant_frecuency, String situation) {
         ContentValues initialValues = new ContentValues();
-        initialValues.put(KEY_NAME, name);
         initialValues.put(KEY_FAMILY, family);
-        initialValues.put(KEY_AGE, age);
-        initialValues.put(KEY_HEIGHT, height);
-        initialValues.put(KEY_PHOTO, photo);
-        initialValues.put(KEY_LAST_PODE, last_pode);
-        initialValues.put(KEY_LAST_WATER, last_water);
-        initialValues.put(KEY_LAST_TRASPLANT, last_trasplant);
+        initialValues.put(KEY_PODE_FRECUENCY, pode_frecuency);
+        initialValues.put(KEY_WATER_FRECUENCY, water_frecuency);
+        initialValues.put(KEY_TRANSPLANT_FRECUENCY, transplant_frecuency);
         initialValues.put(KEY_SITUATION, situation);
 
 
@@ -154,7 +158,7 @@ public class BonsaiDbUtil {
      * @param rowId id of note to delete
      * @return true if deleted, false otherwise
      */
-    public boolean deleteBonsai(long rowId) {
+    public boolean deleteFamily(long rowId) {
 
         return mDb.delete(DATABASE_TABLE, KEY_ROWID + "=" + rowId, null) > 0;
     }
@@ -164,11 +168,11 @@ public class BonsaiDbUtil {
      * 
      * @return Cursor over all notes
      */
-    public Cursor fetchAllBonsais() {
+    public Cursor fetchAllFamilys() {
 
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID,
-                KEY_NAME, KEY_FAMILY, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
-                KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, null, null, null, null, null);
+                KEY_FAMILY, KEY_PODE_FRECUENCY, KEY_WATER_FRECUENCY, 
+                KEY_TRANSPLANT_FRECUENCY, KEY_SITUATION}, null, null, null, null, null);
     }
 
     /**
@@ -178,13 +182,13 @@ public class BonsaiDbUtil {
      * @return Cursor positioned to matching note, if found
      * @throws SQLException if note could not be found/retrieved
      */
-    public Cursor fetchBonsai(long rowId) throws SQLException {
+    public Cursor fetchFamily(long rowId) throws SQLException {
 
         Cursor mCursor =
 
             mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
-                    KEY_NAME, KEY_FAMILY, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
-                    KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, KEY_ROWID + "=" + rowId, null,
+            		KEY_FAMILY, KEY_PODE_FRECUENCY, KEY_WATER_FRECUENCY, 
+                    KEY_TRANSPLANT_FRECUENCY, KEY_SITUATION}, KEY_ROWID + "=" + rowId, null,
                     null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -203,19 +207,18 @@ public class BonsaiDbUtil {
      * @param body value to set note body to
      * @return true if the note was successfully updated, false otherwise
      */
-    public boolean updateBonsai(long rowId, String name, String family, int age, int height, 
-    		String photo, long last_pode, long last_water, long last_trasplant, String situation) {
+    public boolean updateFamily(long rowId, String family, long pode_frecuency, long water_frecuency,
+    		long transplant_frecuency, String situation) {
         ContentValues args = new ContentValues();
-        args.put(KEY_NAME, name);
         args.put(KEY_FAMILY, family);
-        args.put(KEY_AGE, age);
-        args.put(KEY_HEIGHT, height);
-        args.put(KEY_PHOTO, photo);
-        args.put(KEY_LAST_PODE, last_pode);
-        args.put(KEY_LAST_WATER, last_water);
-        args.put(KEY_LAST_TRASPLANT, last_trasplant);
+        args.put(KEY_PODE_FRECUENCY, pode_frecuency);
+        args.put(KEY_WATER_FRECUENCY, water_frecuency);
+        args.put(KEY_TRANSPLANT_FRECUENCY, transplant_frecuency);
         args.put(KEY_SITUATION, situation);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }
+    
+
+    
 }

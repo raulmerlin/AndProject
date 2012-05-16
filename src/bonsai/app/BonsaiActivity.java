@@ -17,6 +17,7 @@ public class BonsaiActivity extends Activity {
 
     // Utilidad de manejo de Base de Datos
 	private BonsaiDbUtil bonsaidb;
+	private FamilyDbUtil familydb;
 	private TextView name;
 	private TextView family;
 	private ImageView photo;
@@ -35,6 +36,8 @@ public class BonsaiActivity extends Activity {
         
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
+        familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
+        familydb.open();
         
         
         try {

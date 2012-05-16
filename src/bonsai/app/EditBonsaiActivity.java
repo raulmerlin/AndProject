@@ -1,15 +1,27 @@
 package bonsai.app;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,22 +33,30 @@ public class EditBonsaiActivity extends Activity {
 	private BonsaiDbUtil bonsaidb;
 
 	private EditText editName;
-	private EditText editFamily;
+	private Spinner editFamily;
 	private EditText editAge;
 	private EditText editHeight;
 	private TextView photoURLtext;
 	private Spinner editSituation;
+	private EditText editpostCode;
+	private EditText editCountry;
+	private Button btnpostCode;
+	private Button btnCountry;
 	
 	private String name;
 	private String family;
 	private int age;
 	private int height;
 	private String photo;
-	private int situation;
+	private String situation;
 	
 	private AlertDialog alert;
 	private AlertDialog deletealert;
 	
+
+	private static final int NOTIF_ALERTA_ID = 1;
+	private LocationManager locManager;
+	private LocationListener locListener;
 	
 	
 	
@@ -48,16 +68,31 @@ public class EditBonsaiActivity extends Activity {
         setContentView(R.layout.editbonsai);
 
         editName= (EditText)findViewById(R.id.editName);
-        editFamily= (EditText)findViewById(R.id.editFamily);
+        
+        editFamily = (Spinner)findViewById(R.id.familySpinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.family_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editFamily.setAdapter(adapter);
+        
         editAge= (EditText)findViewById(R.id.editAge);
+        
         editHeight= (EditText)findViewById(R.id.editHeight);
+        
         photoURLtext= (TextView)findViewById(R.id.photoURLtext);
         
         editSituation = (Spinner) findViewById(R.id.spinner1);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(
                 this, R.array.situation_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        editSituation.setAdapter(adapter);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        editSituation.setAdapter(adapter2);
+        
+
+        editpostCode=(EditText)findViewById(R.id.editPostCode);
+        editCountry=(EditText)findViewById(R.id.editCountry);
+        btnpostCode = (Button)findViewById(R.id.btnPostCode);
+        btnCountry = (Button)findViewById(R.id.btnCountry);
+        
         
     	createCancelAlert();
     	createDeleteAlert();
@@ -72,10 +107,6 @@ public class EditBonsaiActivity extends Activity {
             name = bonsai.getString(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
             editName.setText(name);
-
-            family = bonsai.getString(
-                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY));
-            editFamily.setText(String.valueOf(family));
             
             age = bonsai.getInt(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE));
@@ -135,10 +166,10 @@ public class EditBonsaiActivity extends Activity {
     	
     		try {
     	name =  editName.getText().toString();
-    	family =  editFamily.getText().toString();
+    	family =  editFamily.getSelectedItem().toString();
     	age =  Integer.parseInt(editAge.getText().toString());
     	height =  Integer.parseInt(editHeight.getText().toString());
-    	situation = Integer.parseInt(editSituation.getSelectedItem().toString());
+    	situation = editSituation.getSelectedItem().toString();
     	if(photoURLtext.getText().length() < 2) photo = "";
     	} catch(Exception e) {
     		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
@@ -216,5 +247,75 @@ public class EditBonsaiActivity extends Activity {
     	alert.show();
     	return false;
     }
+
+    
+    //Método para la localización
+    private Location comenzarLocalizacion() {
+
+    	locListener = new LocationListener() {
+	    	public void onLocationChanged(Location location) {
+	    	}
+	    	public void onProviderDisabled(String provider){
+	    	}
+	    	public void onProviderEnabled(String provider){
+	    	}
+	    	public void onStatusChanged(String provider, int status, Bundle extras){
+	    		Log.i("", "Provider Status: " + status);
+	    	}
+    	};
+    	
+    	locManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+    	locManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 300000000, 0, locListener);
+    	Location loc = locManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    	if(loc == null) {
+        	locManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 300000000, 0, locListener);
+        	loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+    	}
+    	
+    	return loc;
+    }
+    
+    public void goMakeCountry(View v) {
+        Location loc = comenzarLocalizacion();
+
+    	if(loc == null) {
+         	Toast.makeText(this, "Incapaz de obtener localizacion", Toast.LENGTH_SHORT).show();
+         	return;
+    	}
+        Geocoder myloc = new Geocoder(this,Locale.getDefault());
+        Address ad;
+
+        try {
+			List<Address> addresses = myloc.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+	        ad = addresses.get(0);
+	        editpostCode.setText(ad.getPostalCode());
+        } catch (IOException e) {
+			// TODO Auto-generated catch block
+         	Toast.makeText(this, "Error trying to get country " + e.toString(), Toast.LENGTH_SHORT).show();
+		}
+        
+    }
+    
+    public void goMakePostCode(View v){
+        Location loc = comenzarLocalizacion();
+        
+    	if(loc == null) {
+         	Toast.makeText(this, "Incapaz de obtener localizacion", Toast.LENGTH_SHORT).show();
+         	return;
+    	}
+    	
+        Geocoder myloc = new Geocoder(this,Locale.getDefault());
+         Address ad;
+
+	        try {
+ 			List<Address> addresses = myloc.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
+ 	        ad = addresses.get(0);
+ 	        editpostCode.setText(ad.getPostalCode());
+         } catch (Exception e) {
+ 			// TODO Auto-generated catch block
+         	Toast.makeText(this, "Error trying to get location " + e.toString(), Toast.LENGTH_SHORT).show();
+ 		}
+     	
+     }
 
 }

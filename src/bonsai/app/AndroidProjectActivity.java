@@ -14,6 +14,7 @@ public class AndroidProjectActivity extends TabActivity {
 	
     // Utilidad de manejo de Base de Datos
 	private BonsaiDbUtil bonsaidb;
+	private FamilyDbUtil familydb;
 	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,9 @@ public class AndroidProjectActivity extends TabActivity {
 
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
+        familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
+        familydb.open();
+        
     	Cursor bonsai = bonsaidb.fetchAllBonsais();
     	bonsai.moveToLast();
     	try {
