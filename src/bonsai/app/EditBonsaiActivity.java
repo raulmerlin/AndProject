@@ -45,6 +45,7 @@ public class EditBonsaiActivity extends Activity {
 	private int age;
 	private int height;
 	private String photo;
+	private String localization;
 	private String situation;
 	
 	private AlertDialog alert;
@@ -111,6 +112,11 @@ public class EditBonsaiActivity extends Activity {
 
             photo = bonsai.getString(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_PHOTO));
+            
+            localization = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LOCALIZATION));
+            editCountry.setText(localization.substring(6,8));
+            editpostCode.setText(localization.substring(0,5));
+            
         	 if(photo.length() < 18) {
         		photoURLtext.setText(photo);
         	 } else {
@@ -163,17 +169,18 @@ public class EditBonsaiActivity extends Activity {
     	age =  Integer.parseInt(editAge.getText().toString());
     	height =  Integer.parseInt(editHeight.getText().toString());
     	situation = editSituation.getSelectedItem().toString();
+    	localization = editpostCode.getText().toString() + "," + editCountry.getText().toString();
     	if(photoURLtext.getText().length() < 2) photo = "";
     	} catch(Exception e) {
     		Toast.makeText(this, e.toString(), Toast.LENGTH_LONG).show();
     	}
-    	if((name.length() > 1)) {
+    	if((name.length() > 1) && (family.length() > 1) && (situation.length()>1) && localization.length()>2) {
     		if(AndroidProjectActivity.iamediting) {
-    			bonsaidb.updateBonsai(AndroidProjectActivity.bonsaiactual, name, family, age, height, photo, 0, 0, 0, situation);
+    			bonsaidb.updateBonsai(AndroidProjectActivity.bonsaiactual, name, family, age, height, photo, 0, 0, 0, localization, situation);
     			Toast.makeText(this, name + " changed.", Toast.LENGTH_LONG).show();
     			finish();
     		} else {
-    			AndroidProjectActivity.bonsaiactual = bonsaidb.createBonsai(name, family, age, height, photo, 0, 0, 0, situation);
+    			AndroidProjectActivity.bonsaiactual = bonsaidb.createBonsai(name, family, age, height, photo, 0, 0, 0, localization, situation);
     			Toast.makeText(this, name + " created.", Toast.LENGTH_LONG).show();
     			finish();
     		}

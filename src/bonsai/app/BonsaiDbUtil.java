@@ -45,6 +45,7 @@ public class BonsaiDbUtil {
     public static final String KEY_LAST_PODE = "last_pode";
     public static final String KEY_LAST_WATER = "last_water";
     public static final String KEY_LAST_TRASPLANT = "last_trasplant";
+    public static final String KEY_LOCALIZATION = "localization";
     public static final String KEY_SITUATION = "situation";
     
     
@@ -59,7 +60,7 @@ public class BonsaiDbUtil {
         "create table bonsais(_id integer primary key autoincrement, "
         + "name string not null, family string not null, age integer not null, height integer not null, "
         + "photourl string not null, last_pode integer not null, last_water integer not null, "
-        + "last_trasplant integer not null, situation string not null);";
+        + "last_trasplant integer not null, localization string not null, situation string not null);";
 
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "bonsais";
@@ -84,7 +85,7 @@ public class BonsaiDbUtil {
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             Log.w(TAG, "Upgrading database from version " + oldVersion + " to "		// Al actualizar
                     + newVersion + ", which will destroy all old data");			// avisa
-            db.execSQL("DROP TABLE IF EXISTS bonsais");								// borra la tabla tasks
+            db.execSQL("DROP TABLE IF EXISTS bonsais");								// borra la tabla bonsais
             onCreate(db);															// y crea otra
         }
     }
@@ -132,7 +133,7 @@ public class BonsaiDbUtil {
      * @return rowId or -1 if failed
      */
     public long createBonsai(String name, String family, int age, int height, 
-    		String photo, long last_pode, long last_water, long last_trasplant, String situation) {
+    		String photo, long last_pode, long last_water, long last_trasplant, String localization, String situation) {
         ContentValues initialValues = new ContentValues();
         initialValues.put(KEY_NAME, name);
         initialValues.put(KEY_FAMILY, family);
@@ -142,6 +143,7 @@ public class BonsaiDbUtil {
         initialValues.put(KEY_LAST_PODE, last_pode);
         initialValues.put(KEY_LAST_WATER, last_water);
         initialValues.put(KEY_LAST_TRASPLANT, last_trasplant);
+        initialValues.put(KEY_LOCALIZATION, localization);
         initialValues.put(KEY_SITUATION, situation);
 
 
@@ -168,7 +170,7 @@ public class BonsaiDbUtil {
 
         return mDb.query(DATABASE_TABLE, new String[] {KEY_ROWID,
                 KEY_NAME, KEY_FAMILY, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
-                KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, null, null, null, null, null);
+                KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_LOCALIZATION, KEY_SITUATION}, null, null, null, null, null);
     }
 
     /**
@@ -184,7 +186,7 @@ public class BonsaiDbUtil {
 
             mDb.query(true, DATABASE_TABLE, new String[] {KEY_ROWID,
                     KEY_NAME, KEY_FAMILY, KEY_AGE, KEY_HEIGHT, KEY_PHOTO,
-                    KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_SITUATION}, KEY_ROWID + "=" + rowId, null,
+                    KEY_LAST_PODE, KEY_LAST_WATER, KEY_LAST_TRASPLANT, KEY_LOCALIZATION, KEY_SITUATION}, KEY_ROWID + "=" + rowId, null,
                     null, null, null, null);
         if (mCursor != null) {
             mCursor.moveToFirst();
@@ -204,7 +206,7 @@ public class BonsaiDbUtil {
      * @return true if the note was successfully updated, false otherwise
      */
     public boolean updateBonsai(long rowId, String name, String family, int age, int height, 
-    		String photo, long last_pode, long last_water, long last_trasplant, String situation) {
+    		String photo, long last_pode, long last_water, long last_trasplant, String localization, String situation) {
         ContentValues args = new ContentValues();
         args.put(KEY_NAME, name);
         args.put(KEY_FAMILY, family);
@@ -214,6 +216,7 @@ public class BonsaiDbUtil {
         args.put(KEY_LAST_PODE, last_pode);
         args.put(KEY_LAST_WATER, last_water);
         args.put(KEY_LAST_TRASPLANT, last_trasplant);
+        args.put(KEY_LOCALIZATION, localization);
         args.put(KEY_SITUATION, situation);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;

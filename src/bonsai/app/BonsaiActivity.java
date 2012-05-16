@@ -79,11 +79,6 @@ public class BonsaiActivity extends Activity {
          }
     }
     
-    
-    public void goGallery(View v) {
-    	Toast.makeText(this, "Gallery will be soon available", Toast.LENGTH_SHORT).show();
-    }
-    
     public void goEdit(View v) {
     	try {
     	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
