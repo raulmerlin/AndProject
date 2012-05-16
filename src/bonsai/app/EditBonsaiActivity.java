@@ -38,6 +38,7 @@ public class EditBonsaiActivity extends Activity {
 	private TextView photoURLtext;
 	private Spinner editSituation;
 	private EditText editpostCode;
+	private EditText editCountry;
 	
 	private String name;
 	private String family;
@@ -83,6 +84,7 @@ public class EditBonsaiActivity extends Activity {
         
 
         editpostCode=(EditText)findViewById(R.id.editPostCode);
+        editCountry=(EditText)findViewById(R.id.editCountry);
         
         
     	createCancelAlert();
@@ -279,7 +281,7 @@ public class EditBonsaiActivity extends Activity {
         try {
 			List<Address> addresses = myloc.getFromLocation(loc.getLatitude(), loc.getLongitude(), 1);
 	        ad = addresses.get(0);
-	        editpostCode.setText(ad.getPostalCode());
+	        editCountry.setText(ad.getCountryCode());
         } catch (IOException e) {
 			// TODO Auto-generated catch block
          	Toast.makeText(this, "Error trying to get country " + e.toString(), Toast.LENGTH_SHORT).show();
@@ -291,7 +293,7 @@ public class EditBonsaiActivity extends Activity {
         Location loc = comenzarLocalizacion();
         
     	if(loc == null) {
-         	Toast.makeText(this, "Incapaz de obtener localizacion", Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Cannot get info about localization.", Toast.LENGTH_SHORT).show();
          	return;
     	}
     	
