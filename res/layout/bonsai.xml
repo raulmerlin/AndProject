@@ -25,13 +25,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical" >
-            
+
             <TextView
-            android:id="@+id/textName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="NOMBRE"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:id="@+id/textName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NOMBRE"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
                 android:id="@+id/textFamily"
@@ -40,12 +40,29 @@
                 android:text="Especie"
                 android:textAppearance="?android:attr/textAppearanceMedium" />
 
-            <AnalogClock
-                android:id="@+id/analogClock1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center" />
-            
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" >
+
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.48"
+                    android:text="18ºC"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                <ImageView
+                    android:id="@+id/imageView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.48"
+                    android:src="@android:drawable/btn_star_big_on" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </LinearLayout>
@@ -58,7 +75,6 @@
   <TextView android:id="@android:id/empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
-
 
 </LinearLayout>
 

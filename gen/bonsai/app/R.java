@@ -21,9 +21,8 @@ public final class R {
         public static final int ic_tab_selectbonsai=0x7f020004;
     }
     public static final class id {
-        public static final int analogClock1=0x7f060003;
         public static final int bonsaiImage=0x7f060000;
-        public static final int bonsairowtext=0x7f060009;
+        public static final int bonsairowtext=0x7f06000a;
         public static final int button1=0x7f060014;
         public static final int button2=0x7f060015;
         public static final int cancelButton=0x7f06000d;
@@ -32,14 +31,14 @@ public final class R {
         public static final int editFamily=0x7f060010;
         public static final int editHeight=0x7f060012;
         public static final int editName=0x7f06000f;
-        public static final int footer=0x7f060004;
+        public static final int footer=0x7f060005;
         public static final int imageButton1=0x7f060018;
-        public static final int imageButton2=0x7f060008;
-        public static final int imageButton3=0x7f060005;
-        public static final int imageButton4=0x7f060006;
-        public static final int imageButton5=0x7f060007;
-        public static final int imageView1=0x7f06001b;
-        public static final int linearLayout1=0x7f06000a;
+        public static final int imageButton2=0x7f060009;
+        public static final int imageButton3=0x7f060006;
+        public static final int imageButton4=0x7f060007;
+        public static final int imageButton5=0x7f060008;
+        public static final int imageView1=0x7f060004;
+        public static final int linearLayout1=0x7f06000b;
         public static final int photoURLtext=0x7f060013;
         public static final int relativeLayout1=0x7f060017;
         public static final int saveButton=0x7f06000c;
@@ -47,7 +46,7 @@ public final class R {
         public static final int spinner1=0x7f060016;
         public static final int textFamily=0x7f060002;
         public static final int textName=0x7f060001;
-        public static final int textView1=0x7f06000b;
+        public static final int textView1=0x7f060003;
         public static final int textView2=0x7f060019;
     }
     public static final class layout {
