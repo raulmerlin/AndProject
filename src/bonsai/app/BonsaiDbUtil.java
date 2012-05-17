@@ -87,17 +87,7 @@ public class BonsaiDbUtil {
 
 			// En la creacion de la clase
             db.execSQL(FAMILY_DATABASE_CREATE);		// crea la base de datos
-            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-            		"Values ('Serissa Phoetida', '" + 120*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
-            db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-            		"Values ('Ficus Retusa', '" + 90*24 + "', '" + 4*24 + "', '" + 630*24 + "', 'Interior') ");
-			db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-					"Values ('Olea Europaea', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
-			db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-					"Values ('Carmona Mircophilla', '" + 60*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
-			db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
-					"Values ('Picea Glauca Conica', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
-
+            familydbseed(db);
 
         }
 
@@ -107,6 +97,19 @@ public class BonsaiDbUtil {
                     + newVersion + ", which will destroy all old data");			// avisa
             db.execSQL("DROP TABLE IF EXISTS bonsais");								// borra la tabla bonsais
             onCreate(db);															// y crea otra
+        }
+        
+        public void familydbseed(SQLiteDatabase db) {
+        	db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+        		"Values ('Serissa Phoetida', '" + 120*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
+        	db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+        		"Values ('Ficus Retusa', '" + 90*24 + "', '" + 4*24 + "', '" + 630*24 + "', 'Interior') ");
+        	db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+				"Values ('Olea Europaea', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
+        	db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+				"Values ('Carmona Mircophilla', '" + 60*24 + "', '" + 3*24 + "', '" + 630*24 + "', 'Interior') ");
+        	db.execSQL("Insert Into familys (family, pode_frecuency, water_frecuency, transplant_frecuency, situation) " +
+				"Values ('Picea Glauca Conica', '" + 150*24 + "', '" + 6*24 + "', '" + 1030*24 + "', 'Exterior') ");
         }
     }
 
@@ -252,6 +255,20 @@ public class BonsaiDbUtil {
     public boolean waterBonsai(long rowId, long last_water) {
         ContentValues args = new ContentValues();
         args.put(KEY_LAST_WATER, last_water);
+
+        return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+
+    public boolean podeBonsai(long rowId, long last_pode) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_LAST_PODE, last_pode);
+
+        return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+    }
+    
+    public boolean transplantBonsai(long rowId, long last_trasplant) {
+        ContentValues args = new ContentValues();
+        args.put(KEY_LAST_TRASPLANT, last_trasplant);
 
         return mDb.update(DATABASE_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
     }

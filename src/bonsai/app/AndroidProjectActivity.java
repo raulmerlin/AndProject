@@ -11,6 +11,7 @@ public class AndroidProjectActivity extends TabActivity {
 	
 	public static long bonsaiactual;
 	public static boolean iamediting;
+	public static boolean fullversion;
 	
     // Utilidad de manejo de Base de Datos
 	private BonsaiDbUtil bonsaidb;
@@ -35,6 +36,7 @@ public class AndroidProjectActivity extends TabActivity {
     		bonsaiactual = 0;
     	}
 	    iamediting = false;
+	    fullversion = true;
 	    
 	    setContentView(R.layout.main);
 
@@ -76,7 +78,11 @@ public class AndroidProjectActivity extends TabActivity {
 
 	    Intent startmessage = new Intent().setClass(this, StartActivity.class);
 	    startActivity(startmessage);
-	    
 
 	}
+	
+	public void changeTab(int i) {
+		getTabHost().setCurrentTab(i);
+	}
+
 }

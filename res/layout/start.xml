@@ -7,7 +7,8 @@
     <ImageView
         android:id="@+id/imageView1"
         android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:src="@drawable/ic_launcher" android:onClick="goStart"/>
+        android:layout_height="match_parent"
+        android:onClick="goStart"
+        android:src="@drawable/escaledlogo" />
 
 </FrameLayout>

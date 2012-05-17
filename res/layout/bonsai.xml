@@ -46,14 +46,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
 
-                    <TextView
-                        android:id="@+id/textView1"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
                         android:layout_weight="0.48"
-                        android:text="18ºC"
-                        android:textAppearance="?android:attr/textAppearanceMedium" />
+                        android:orientation="vertical" >
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="0.48" >
+
+                            <TextView
+                                android:id="@+id/textYears"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginBottom="2dp"
+                                android:layout_weight="0.48"
+                                android:text="10"
+                                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+                            <TextView
+                                android:id="@+id/textView3"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="0.48"
+                                android:text="years"
+                                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/textView1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:layout_weight="0.48"
+                            android:text="18ºC"
+                            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                    </LinearLayout>
 
                     <ImageView
                         android:id="@+id/imageView1"
@@ -62,7 +94,9 @@
                         android:layout_gravity="center"
                         android:layout_weight="0.48"
                         android:src="@android:drawable/btn_star_big_on" />
+
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
 
@@ -166,7 +200,7 @@
             android:orientation="horizontal" >
 
             <ImageButton
-                android:id="@+id/imageButton3"
+                android:id="@+id/waterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -174,18 +208,20 @@
                 android:onClick="makeWater" />
 
             <ImageButton
-                android:id="@+id/imageButton4"
+                android:id="@+id/podeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_myplaces" />
+                android:src="@android:drawable/ic_menu_myplaces" 
+                android:onClick="makePode"/>
 
             <ImageButton
-                android:id="@+id/imageButton5"
+                android:id="@+id/transplantButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_rotate" />
+                android:src="@android:drawable/ic_menu_rotate"
+                android:onClick="makeTransplant" />
 
             <ImageButton
                 android:id="@+id/imageButton2"

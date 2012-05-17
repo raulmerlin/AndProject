@@ -5,6 +5,7 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.SyncStateContract.Constants;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -47,7 +48,10 @@ public class SelectBonsaiActivity extends ListActivity {
             String nombre = bonsai.getString(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
         	Toast.makeText(this, "El bonsai actual es: " + nombre, Toast.LENGTH_SHORT).show();
-            
+
+        	AndroidProjectActivity tabs = (AndroidProjectActivity) this.getParent();
+        	tabs.changeTab(1);
+
         } catch (Exception e) {
         	Toast.makeText(this, "Error changing bonsai.", Toast.LENGTH_LONG).show();
         	
@@ -57,9 +61,19 @@ public class SelectBonsaiActivity extends ListActivity {
     }
     
     public void goCreate(View v) {
-    	AndroidProjectActivity.iamediting = false;
-	    Intent editAct = new Intent().setClass(this, EditBonsaiActivity.class);
-	    startActivity(editAct);
+    	if(AndroidProjectActivity.fullversion == true) {
+    		AndroidProjectActivity.iamediting = false;
+    		Intent editAct = new Intent().setClass(this, EditBonsaiActivity.class);
+    		startActivity(editAct);
+    	} else {
+    		Cursor bonsaisCursor = bonsaidb.fetchAllBonsais();
+    		startManagingCursor(bonsaisCursor);
+    		if(bonsaisCursor.getCount() >= 1) {
+            	Toast.makeText(this, "Please, buy full version to create more than one bonsai", Toast.LENGTH_LONG).show();
+            	AndroidProjectActivity tabs = (AndroidProjectActivity) this.getParent();
+            	tabs.changeTab(3);
+    		}
+    	}
     }
     
     
