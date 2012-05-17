@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -115,6 +116,26 @@ public class BonsaiActivity extends Activity {
     	} catch(Exception e) {
         	Toast.makeText(this, "None Bonsai selected.", Toast.LENGTH_SHORT).show();
     	}
+    }
+    
+    
+    public void toastImage(View v) {
+    	Toast ImageToast = new Toast(getBaseContext());
+        LinearLayout toastLayout = new LinearLayout(getBaseContext());
+        toastLayout.setOrientation(LinearLayout.HORIZONTAL);
+        ImageView image = new ImageView(getBaseContext());
+    	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
+        startManagingCursor(bonsai);
+        String photouri = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_PHOTO));
+        if(photouri.length() > 1)
+        	image.setImageURI(Uri.parse(photouri));
+        else image.setImageResource(R.drawable.ic_launcher);
+        //text.setText("");
+        toastLayout.addView(image);
+        //toastLayout.addView(text);
+        ImageToast.setView(toastLayout);
+        ImageToast.setDuration(Toast.LENGTH_SHORT);
+        ImageToast.show();
     }
 
     private void checkWater() {

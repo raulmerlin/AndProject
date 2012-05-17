@@ -4,6 +4,11 @@
     android:layout_height="wrap_content"
     android:orientation="vertical" >
 
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >    
+    
     <LinearLayout
         android:id="@+id/linearLayout1"
         android:layout_width="match_parent"
@@ -21,7 +26,7 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/ic_launcher" android:onClick="toastImage"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -183,8 +188,16 @@
 
         </TableLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:orientation="vertical" >
+        </LinearLayout>
+
     </LinearLayout>
 
+    </ScrollView>
+    
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
