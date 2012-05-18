@@ -164,7 +164,6 @@ public class BonsaiActivity extends Activity {
     	long lastwatered;
     	long waterfrec;
     	int height = 30;
-    	temperature = 20;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
     	
 
@@ -272,10 +271,7 @@ public class BonsaiActivity extends Activity {
     }
     private void checkWeather() {
         Cursor bonsai;
-    	String situation;
-
-  
-      	
+    	String situation; 	
       	dialog = ProgressDialog.show(this, "", "Data obtaining…", true);
       	
       	Thread thread = new Thread() {
@@ -302,7 +298,11 @@ public class BonsaiActivity extends Activity {
       	};
       	thread.start();	
     	try{
-        textWeather.setText(Double.toString(w.getTempMedia())+"ºC");
+    		bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
+  			startManagingCursor(bonsai);	
+  			situation= bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_SITUATION));
+  			System.out.println("la situación es "+situation);
+  			textWeather.setText(Double.toString(w.getTempMedia())+"ºC");
         temperature=w.getTempMedia();
         String s=w.getIcon();
         s=s.replaceAll("/ig/images/weather/", "");
@@ -325,25 +325,33 @@ public class BonsaiActivity extends Activity {
         	weatherIcon.setImageResource(R.drawable.haze);
         if(s.equals("icy")){
         	weatherIcon.setImageResource(R.drawable.icy);
-        Toast.makeText(this, "No es un buen día para que su bonsai esté en el exterior", Toast.LENGTH_SHORT).show();}
+        	if(situation.equals("Exterior"))
+        	textTemperature.setText("Your Bonsai is frozen, please put it indoor");}
         if(s.equals("mist"))
         	weatherIcon.setImageResource(R.drawable.mist);
-        if(s.equals("mostly_sunny"))
+        if(s.equals("mostly_sunny")){
         	weatherIcon.setImageResource(R.drawable.mostly_sunny);
+        if(situation.equals("Interior"))
+        	textTemperature.setText("Your Bonsai would like to have some sunbathing today");}
         if(s.equals("smoke"))
         	weatherIcon.setImageResource(R.drawable.smoke);
-        if(s.equals("snow"))
+        if(s.equals("snow")){
         	weatherIcon.setImageResource(R.drawable.snow);
-        if(s.equals("storm"))
+        	if(situation.equals("Exterior"))
+            	textTemperature.setText("Your Bonsai looks like snowman");}
+        if(s.equals("storm")){
         	weatherIcon.setImageResource(R.drawable.storm);
+        	if(situation.equals("Exterior"))
+            	textTemperature.setText("Your Bonsai is scare of thunderstorm");}
         if(s.equals("sunny")){
-        	System.out.println("EStoy en el if de sunny!!!1");
         	weatherIcon.setImageResource(R.drawable.sunny);
-        	Toast.makeText(this, "Su bonsai estará muy contento de poder hoy tomar el sol!!", Toast.LENGTH_LONG).show();}
+        	if(situation.equals("Interior"))
+            	textTemperature.setText("Your Bonsai would like to " +
+            			"have some sunbathing today");}
         if(s.equals("thunderstorm")){
         	weatherIcon.setImageResource(R.drawable.thunderstorm);
-        	Toast.makeText(this, "Si su bonsai está en el exterior estará encantado de pasar a casa con Usted", Toast.LENGTH_SHORT).show();
-        }
+        	if(situation.equals("Exterior"))
+            	textTemperature.setText("Your Bonsai is scare of thunderstorm");}
     	}catch(Exception e){
     		System.out.println("Salta una excepción de el segundo try del tiempo");
 
