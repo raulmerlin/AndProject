@@ -283,7 +283,7 @@ public class EditBonsaiActivity extends Activity {
         Location loc = comenzarLocalizacion();
 
     	if(loc == null) {
-         	Toast.makeText(this, "Incapaz de obtener localizacion", Toast.LENGTH_SHORT).show();
+    		Toast.makeText(this, "Incapaz de obtener localizacion, turn on 3g please", Toast.LENGTH_SHORT).show();
          	return;
     	}
         Geocoder myloc = new Geocoder(this,Locale.getDefault());

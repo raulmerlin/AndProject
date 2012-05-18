@@ -15,12 +15,28 @@ public final class R {
     public static final class attr {
     }
     public static final class drawable {
-        public static final int escaledlogo=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int ic_tab_bonsai=0x7f020002;
-        public static final int ic_tab_calendar=0x7f020003;
-        public static final int ic_tab_more=0x7f020004;
-        public static final int ic_tab_selectbonsai=0x7f020005;
+        public static final int chance_of_rain=0x7f020000;
+        public static final int chance_of_snow=0x7f020001;
+        public static final int chance_of_storm=0x7f020002;
+        public static final int cloudy=0x7f020003;
+        public static final int dust=0x7f020004;
+        public static final int escaledlogo=0x7f020005;
+        public static final int fog=0x7f020006;
+        public static final int haze=0x7f020007;
+        public static final int ic_launcher=0x7f020008;
+        public static final int ic_tab_bonsai=0x7f020009;
+        public static final int ic_tab_calendar=0x7f02000a;
+        public static final int ic_tab_more=0x7f02000b;
+        public static final int ic_tab_selectbonsai=0x7f02000c;
+        public static final int icy=0x7f02000d;
+        public static final int mist=0x7f02000e;
+        public static final int mostly_sunny=0x7f02000f;
+        public static final int sleet=0x7f020010;
+        public static final int smoke=0x7f020011;
+        public static final int snow=0x7f020012;
+        public static final int storm=0x7f020013;
+        public static final int sunny=0x7f020014;
+        public static final int thunderstorm=0x7f020015;
     }
     public static final class id {
         public static final int ImageView01=0x7f06000d;
@@ -30,8 +46,8 @@ public final class R {
         public static final int btnPostCode=0x7f060022;
         public static final int button1=0x7f06001e;
         public static final int button2=0x7f06001f;
-        public static final int cancelButton=0x7f06002b;
-        public static final int donatebutton=0x7f060029;
+        public static final int cancelButton=0x7f06002c;
+        public static final int donatebutton=0x7f06002a;
         public static final int editAge=0x7f06001b;
         public static final int editCountry=0x7f060023;
         public static final int editHeight=0x7f06001c;
@@ -42,14 +58,15 @@ public final class R {
         public static final int imageButton1=0x7f060026;
         public static final int imageButton2=0x7f060017;
         public static final int imageButton3=0x7f060027;
-        public static final int imageView1=0x7f060008;
+        public static final int imageView1=0x7f06002d;
         public static final int imageView2=0x7f06000a;
         public static final int imageView4=0x7f060010;
+        public static final int imageWeather=0x7f060008;
         public static final int linearLayout1=0x7f060001;
         public static final int photoURLtext=0x7f06001d;
         public static final int podeButton=0x7f060015;
         public static final int relativeLayout1=0x7f060025;
-        public static final int saveButton=0x7f06002a;
+        public static final int saveButton=0x7f06002b;
         public static final int scrollView1=0x7f060000;
         public static final int spinner1=0x7f060020;
         public static final int tableRow1=0x7f060009;
@@ -60,11 +77,12 @@ public final class R {
         public static final int textPrune=0x7f060011;
         public static final int textTemperature=0x7f060012;
         public static final int textTransplant=0x7f06000e;
-        public static final int textView1=0x7f060007;
-        public static final int textView2=0x7f060028;
+        public static final int textView1=0x7f060028;
+        public static final int textView2=0x7f060029;
         public static final int textView3=0x7f060006;
         public static final int textWater=0x7f06000b;
         public static final int textYears=0x7f060005;
+        public static final int textweather=0x7f060007;
         public static final int transplantButton=0x7f060016;
         public static final int waterButton=0x7f060014;
     }
