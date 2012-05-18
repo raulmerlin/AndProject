@@ -40,6 +40,7 @@ public class EditBonsaiActivity extends Activity {
 	private Spinner editSituation;
 	private EditText editpostCode;
 	private EditText editCountry;
+
 	
 	private String name;
 	private String family;
@@ -87,7 +88,7 @@ public class EditBonsaiActivity extends Activity {
 
         editpostCode=(EditText)findViewById(R.id.editPostCode);
         editCountry=(EditText)findViewById(R.id.editCountry);
-        
+
         
     	createCancelAlert();
     	createDeleteAlert();
@@ -124,6 +125,9 @@ public class EditBonsaiActivity extends Activity {
         	 } else {
         	  	photoURLtext.setText("..." + photo.substring((photo.length() - 18), photo.length()));
         	 }
+        	 
+        	 
+
         	 
             
         } catch (Exception e) {
@@ -283,7 +287,7 @@ public class EditBonsaiActivity extends Activity {
         Location loc = comenzarLocalizacion();
 
     	if(loc == null) {
-         	Toast.makeText(this, "Incapaz de obtener localizacion", Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Incapaz de obtener localizacion, turn on 3g please", Toast.LENGTH_SHORT).show();
          	return;
     	}
         Geocoder myloc = new Geocoder(this,Locale.getDefault());
@@ -295,7 +299,7 @@ public class EditBonsaiActivity extends Activity {
 	        editCountry.setText(ad.getCountryCode());
         } catch (IOException e) {
 			// TODO Auto-generated catch block
-         	Toast.makeText(this, "Error trying to get country " + e.toString(), Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Error trying to get country, turn on 3g please " + e.toString(), Toast.LENGTH_SHORT).show();
 		}
         
     }
@@ -304,7 +308,7 @@ public class EditBonsaiActivity extends Activity {
         Location loc = comenzarLocalizacion();
         
     	if(loc == null) {
-         	Toast.makeText(this, "Cannot get info about localization.", Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Cannot get info about localization, turn on 3g please", Toast.LENGTH_SHORT).show();
          	return;
     	}
     	
@@ -317,7 +321,7 @@ public class EditBonsaiActivity extends Activity {
  	        editpostCode.setText(ad.getPostalCode());
          } catch (Exception e) {
  			// TODO Auto-generated catch block
-         	Toast.makeText(this, "Error trying to get location " + e.toString(), Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Error trying to get location, turn on 3g please " + e.toString(), Toast.LENGTH_SHORT).show();
  		}
      	
      }
