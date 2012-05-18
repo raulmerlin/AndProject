@@ -52,7 +52,7 @@ public class BonsaiActivity extends Activity {
         familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
         familydb.open();
         
-        
+    /*    
         try {
         	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
             startManagingCursor(bonsai);
@@ -74,7 +74,7 @@ public class BonsaiActivity extends Activity {
         	Toast.makeText(this, "None Bonsai selected", Toast.LENGTH_SHORT).show();
         	
         }
-        
+        */
     }
     
     @Override
@@ -176,7 +176,7 @@ public class BonsaiActivity extends Activity {
     	long lasttransplant;
     	long transplantfrec;
     	long age = 1;
-    	int height = 30;
+    	//int height = 30;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
     	
 
@@ -188,7 +188,7 @@ public class BonsaiActivity extends Activity {
         	long date = new Date().getTime() / (1000*60*60);
             age = ((date - bonsai.getLong(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365*24));
-        	height = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
+        	//height = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
         	
         	Cursor cfamily = familydb.fetchFamilybyName(family);
         	startManagingCursor(cfamily);
@@ -215,7 +215,7 @@ public class BonsaiActivity extends Activity {
     	long lastpode;
     	long podefrecuency;
     	long age = 1;
-    	int height = 30;
+    	//int height = 30;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
     	
 
@@ -228,7 +228,7 @@ public class BonsaiActivity extends Activity {
         	long date = new Date().getTime() / (1000*60*60);
             age = ((date - bonsai.getLong(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365*24));
-        	height = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
+        	//height = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
         	
         	Cursor cfamily = familydb.fetchFamilybyName(family);
         	startManagingCursor(cfamily);

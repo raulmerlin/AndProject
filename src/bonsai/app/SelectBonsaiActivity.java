@@ -5,7 +5,6 @@ import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.provider.SyncStateContract.Constants;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -28,12 +27,21 @@ public class SelectBonsaiActivity extends ListActivity {
 
         Cursor bonsaisCursor = bonsaidb.fetchAllBonsais();
         startManagingCursor(bonsaisCursor);
+
         String[] from = new String[]{BonsaiDbUtil.KEY_NAME};
         int[] to = new int[]{R.id.bonsairowtext};
         // Now create a simple cursor adapter and set it to display
         SimpleCursorAdapter bonsais = 
             new SimpleCursorAdapter(this, R.layout.bonsai_row, bonsaisCursor, from, to);
         setListAdapter(bonsais);
+
+       /* 
+        Cursor bonsaisCursor2 = bonsaidb.fetchAllBonsais();
+        startManagingCursor(bonsaisCursor2);
+        String[] from2 = new String[]{BonsaiDbUtil.KEY_PHOTO};
+        int[] to2 = new int[]{R.id.bonsaiImage};
+        SimpleCursorAdapter bonsais2 = new SimpleCursorAdapter(this, R.layout.bonsai_row, bonsaisCursor2, from2, to2);
+        setListAdapter(bonsais2);*/
 
         
     }
@@ -47,7 +55,7 @@ public class SelectBonsaiActivity extends ListActivity {
             startManagingCursor(bonsai);
             String nombre = bonsai.getString(
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
-        	Toast.makeText(this, "El bonsai actual es: " + nombre, Toast.LENGTH_SHORT).show();
+        	//Toast.makeText(this, "El bonsai actual es: " + nombre, Toast.LENGTH_SHORT).show();
 
         	AndroidProjectActivity tabs = (AndroidProjectActivity) this.getParent();
         	tabs.changeTab(1);
