@@ -16,14 +16,26 @@ public final class R {
     }
     public static final class drawable {
         public static final int chance_of_rain=0x7f020000;
-        public static final int chance_of_storm=0x7f020001;
-        public static final int ic_launcher=0x7f020002;
-        public static final int ic_tab_bonsai=0x7f020003;
-        public static final int ic_tab_calendar=0x7f020004;
-        public static final int ic_tab_more=0x7f020005;
-        public static final int ic_tab_selectbonsai=0x7f020006;
-        public static final int mostly_sunny=0x7f020007;
-        public static final int sunny=0x7f020008;
+        public static final int chance_of_snow=0x7f020001;
+        public static final int chance_of_storm=0x7f020002;
+        public static final int cloudy=0x7f020003;
+        public static final int dust=0x7f020004;
+        public static final int fog=0x7f020005;
+        public static final int haze=0x7f020006;
+        public static final int ic_launcher=0x7f020007;
+        public static final int ic_tab_bonsai=0x7f020008;
+        public static final int ic_tab_calendar=0x7f020009;
+        public static final int ic_tab_more=0x7f02000a;
+        public static final int ic_tab_selectbonsai=0x7f02000b;
+        public static final int icy=0x7f02000c;
+        public static final int mist=0x7f02000d;
+        public static final int mostly_sunny=0x7f02000e;
+        public static final int sleet=0x7f02000f;
+        public static final int smoke=0x7f020010;
+        public static final int snow=0x7f020011;
+        public static final int storm=0x7f020012;
+        public static final int sunny=0x7f020013;
+        public static final int thunderstorm=0x7f020014;
     }
     public static final class id {
         public static final int bonsaiImage=0x7f060000;

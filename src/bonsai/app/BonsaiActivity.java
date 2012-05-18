@@ -76,9 +76,45 @@ public class BonsaiActivity extends Activity {
             String s=w.getIcon();
             s=s.replaceAll("/ig/images/weather/", "");
             s=s.replaceAll(".gif", "");
-     //       System.out.println("El nombre del icono que me queda es "+s);
-       //     weatherIcon.setImageResurce();
+            System.out.println("El nombre del icono que me queda es "+s);
+            if(s.equals("chance_of_rain"))
+            	weatherIcon.setImageResource(R.drawable.chance_of_rain);
+            if(s.equals("chance_of_snow"))
+            	weatherIcon.setImageResource(R.drawable.chance_of_snow);
+            if(s.equals("chance_of_storm"))
+            	weatherIcon.setImageResource(R.drawable.chance_of_storm);
+            if(s.equals("cloudly"))
+            	weatherIcon.setImageResource(R.drawable.cloudy);
+            if(s.equals("dust"))
+            	weatherIcon.setImageResource(R.drawable.dust);
+            if(s.equals("fog"))
+            	weatherIcon.setImageResource(R.drawable.fog);
+            if(s.equals("haze"))
+            	weatherIcon.setImageResource(R.drawable.haze);
+            if(s.equals("icy")){
+            	weatherIcon.setImageResource(R.drawable.icy);
+            Toast.makeText(this, "No es un buen día para que su bonsai esté en el exterior", Toast.LENGTH_SHORT).show();}
+            if(s.equals("mist"))
+            	weatherIcon.setImageResource(R.drawable.mist);
+            if(s.equals("mostly_sunny"))
+            	weatherIcon.setImageResource(R.drawable.mostly_sunny);
+            if(s.equals("smoke"))
+            	weatherIcon.setImageResource(R.drawable.smoke);
+            if(s.equals("snow"))
+            	weatherIcon.setImageResource(R.drawable.snow);
+            if(s.equals("storm"))
+            	weatherIcon.setImageResource(R.drawable.storm);
+            if(s.equals("sunny")){
+            	System.out.println("EStoy en el if de sunny!!!1");
+            	weatherIcon.setImageResource(R.drawable.sunny);
+            	Toast.makeText(this, "Su bonsai estará muy contento de poder hoy tomar el sol!!", Toast.LENGTH_LONG).show();}
+            if(s.equals("thunderstorm")){
+            	weatherIcon.setImageResource(R.drawable.thunderstorm);
+            	Toast.makeText(this, "Si su bonsai está en el exterior estará encantado de pasar a casa con Usted", Toast.LENGTH_SHORT).show();
+            }
             
+            	
+            	
         	
             
         } catch (Exception e) {
