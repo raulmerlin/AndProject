@@ -87,7 +87,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:layout_weight="0.48"
-                            android:text="18ºC"
+                            android:text="no conexion"
                             android:textAppearance="?android:attr/textAppearanceMedium" />
 
                     </LinearLayout>
