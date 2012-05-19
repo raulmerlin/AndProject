@@ -138,12 +138,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_media_play" />
-	                
-	                <TextView
-                    	android:id="@+id/textTransplant"
-                        android:layout_gravity="center_vertical"
-                        android:padding="3dip"
-                        android:text="No info about transplants" />
+
+                <TextView
+                    android:id="@+id/textPrune"
+                    android:layout_gravity="center_vertical"
+                    android:padding="3dip"
+                    android:text="No info about prunes" />
                 
             </TableRow>
            
@@ -158,11 +158,11 @@
                     android:layout_height="wrap_content"
                     android:src="@android:drawable/ic_media_play" />
 
-                    <TextView
-                    	android:id="@+id/textPrune"
-                        android:layout_gravity="center_vertical"
-                        android:padding="3dip"
-                        android:text="No info about prunes" />
+                <TextView
+                    android:id="@+id/textTransplant"
+                    android:layout_gravity="center_vertical"
+                    android:padding="3dip"
+                    android:text="No info about transplants" />
                 
             </TableRow>
             
@@ -216,7 +216,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_agenda"
+                android:src="@drawable/ic_water"
                 android:onClick="makeWater" />
 
             <ImageButton
@@ -224,16 +224,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_myplaces" 
-                android:onClick="makePode"/>
+                android:onClick="makePode"
+                android:src="@drawable/ic_pode" />
 
             <ImageButton
-                android:id="@+id/transplantButton"
+                android:id="@+id/imageButton1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:src="@android:drawable/ic_menu_rotate"
+                android:src="@drawable/ic_transplant" 
                 android:onClick="makeTransplant" />
+
 
             <ImageButton
                 android:id="@+id/imageButton2"
