@@ -40,6 +40,16 @@ public class BonsaiActivity extends Activity {
 	
 	private String location;
 	private double temperature;
+	public boolean isWeatherAvail() {
+		return weatherAvail;
+	}
+
+
+
+	public double getTemperature() {
+		return temperature;
+	}
+
 	private String imageWeather;
 
 	private final Handler handler = new Handler();
@@ -259,7 +269,7 @@ public class BonsaiActivity extends Activity {
         	
         	// LOGICA DE TRANSPLANTE
         	if(lastpode == 0) textPrune.setText("No info about " + name + " prunes.\nMaybe never pruned.");
-        	else if(age < 2) {	// Los bonsais con menos de dos a–os se suelen defoliar al 50% cada 2 meses, aprox
+        	else if(age < 2) {	// Los bonsais con menos de dos aï¿½os se suelen defoliar al 50% cada 2 meses, aprox
         		if(hoursTime - lastpode > 60 * 24) textPrune.setText("Defoliate your bonsai 50%");
         		else textPrune.setText("Your bonsai prune is not necessary");
         	}
@@ -302,7 +312,7 @@ public class BonsaiActivity extends Activity {
     
     public void setTempInfo() {
     	try{
-	   		textWeather.setText(Double.toString(w.getTempMedia())+"¼C");
+	   		textWeather.setText(Integer.toString(w.getTempMedia())+"ÂºC");
     	} catch (Exception e) {
     	
     	}
@@ -378,28 +388,21 @@ public class BonsaiActivity extends Activity {
 	         if(s.equals("icy")){
 	         	if(situation.equals("Exterior"))
 	         	textTemperature.setText("Your Bonsai is frozen, please put it indoor");
-	         		}
-	         if(situation.equals("Interior"))
-	         	textTemperature.setText("Your Bonsai would like to have some sunbathing today");
-	         
-	         if(s.equals("smoke"))
-	         if(s.equals("snow")){
+	         		}	         
+	         if(s.equals("snow")||s.equals("chance_of_snow")){
 	         	if(situation.equals("Exterior"))
 	             	textTemperature.setText("Your Bonsai looks like snowman");
 	         		}
-	         if(s.equals("storm")){
+	         if(s.equals("storm")||s.equals("thunderstorm")){
 	         	if(situation.equals("Exterior"))
 	             	textTemperature.setText("Your Bonsai is scare of thunderstorm");
 	         		}
-	         if(s.equals("sunny")){
+	         if(s.equals("sunny")||s.equals("mostly_sunny")){
 	         	if(situation.equals("Interior"))
 	             	textTemperature.setText("Your Bonsai would like to " +
 	             			"have some sunbathing today");
 	         	}
-	         if(s.equals("thunderstorm")){
-	         	if(situation.equals("Exterior"))
-	             	textTemperature.setText("Your Bonsai is scare of thunderstorm");
-	         }
+
        	} catch (Exception e) {
         	
     	}

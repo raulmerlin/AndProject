@@ -33,7 +33,7 @@ public class XmlHandler extends DefaultHandler {
     if(qName.compareToIgnoreCase("high") == 0) {
     int high = Integer.parseInt(atts.getValue(0));
     System.out.println("High: " + high);
-    weatherActual.setTempMin(high);
+    weatherActual.setTempMax(high);
     }
     if(qName.compareToIgnoreCase("icon") == 0) {
     	if(n>0){

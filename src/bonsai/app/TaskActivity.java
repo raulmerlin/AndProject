@@ -1,11 +1,17 @@
 package bonsai.app;
 
 import java.util.Date;
+import java.util.List;
+
+import bonsai.app.weather.Weather;
+import bonsai.app.weather.XmlParserSax;
 
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 public class TaskActivity extends ListActivity {
 	
@@ -14,6 +20,18 @@ public class TaskActivity extends ListActivity {
 	private FamilyDbUtil familydb;
 	private String[] tasks;
 	private int cont;
+	
+	//He de calcular otra vez la temperatura, ya que es posible que solo 
+	//utilice esta actividad de la aplicación, posteriormente investigaré una manera
+	//de asegurarse que no hay que hacerlo dos veces, si cambio entre esta actividad y 
+	//BonsaiActivity
+	private ProgressDialog dialog;
+	private String location;
+	private boolean flagWeather=false;
+	private long idtemp;
+	private Weather w;
+
+	
 	
     /** Called when the activity is first created. */
     @Override
@@ -47,6 +65,12 @@ public class TaskActivity extends ListActivity {
            bonsaisCursor.moveToFirst();
            for(int i = 0; i < bonsaisCursor.getCount(); i++) {
            	long id = bonsaisCursor.getLong(bonsaisCursor.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
+           	Cursor bonsai = bonsaidb.fetchBonsai(id);
+  			startManagingCursor(bonsai);
+           	if(location!=bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LOCALIZATION)))
+           		flagWeather=false;
+           	if(flagWeather==false);
+           		checkTemp(id);
            	String possibletask = checkWater(id);
            	if(possibletask != null) {
            		tasks[cont] = possibletask;
@@ -89,7 +113,6 @@ public class TaskActivity extends ListActivity {
     	long lastwatered;
     	long waterfrec;
     	int height = 30;
-    	int temperature = 20;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
     	
 
@@ -108,8 +131,8 @@ public class TaskActivity extends ListActivity {
         	// LOGICA DE REGADO
         	
         	if(lastwatered == 0) return ("Set water info on " + name);
-        	else if(temperature > 35) return("Water " + name + " 2 times with " + height/4 + " cl.");
-        	else if(temperature < 0) return null;
+        	else if(w.getTempMax() > 35) return("Water " + name + " 2 times with " + height/4 + " cl.");
+        	else if(w.getTempMin() < 0) return null;
         	else if((hoursTime - lastwatered) > waterfrec) return("Water " + name + " today once with " + height/2 +" cl.");
         	else return null;
         	
@@ -187,7 +210,7 @@ public class TaskActivity extends ListActivity {
         	
         	// LOGICA DE TRANSPLANTE
         	if(lastpode == 0) return("Set info about " + name + " prunes.");
-        	else if(age < 2) {	// Los bonsais con menos de dos a�os se suelen defoliar al 50% cada 2 meses, aprox
+        	else if(age < 2) {	// Los bonsais con menos de dos a�os se suelen defoliar al 50% cada 2 meses, aprox
         		if(hoursTime - lastpode > 60 * 24) return("Defoliate " + name + " 50%");
         		else return null;
         	}
@@ -198,5 +221,44 @@ public class TaskActivity extends ListActivity {
         	System.out.println(e.toString());
         	return null;
         }	
+    }
+    
+    
+    
+    
+    
+    private void checkTemp(long id) {
+      	dialog = ProgressDialog.show(this, "", "Data obtaining…", true);
+      	idtemp=id;
+      	
+      	Thread thread = new Thread() {
+      		@Override
+      		public void run() {
+      			try{
+      			Cursor bonsai = bonsaidb.fetchBonsai(idtemp);
+      			startManagingCursor(bonsai);	
+      			location = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LOCALIZATION));
+      	        XmlParserSax saxparser =  new XmlParserSax("http://www.google.com/ig/api?weather="+location);
+      	      dialog.dismiss();
+      	        List<Weather> weather = saxparser.parse();
+      	        w=weather.get(0);
+      	        System.out.println("La temperatura de w es " +w.getTempMax());
+      				
+      			}catch(Exception e){
+      				Toast tx;
+      				System.out.println(e.toString());
+      				tx = Toast.makeText(getApplicationContext(), "Conexion is not aviable", Toast.LENGTH_LONG);
+      			    tx.show();
+      			  dialog.dismiss();
+      			}
+      			dialog.dismiss();
+      		}
+
+      		
+      	};
+      	thread.start();	
+        flagWeather=true;
+    	
+   	
     }
 }
