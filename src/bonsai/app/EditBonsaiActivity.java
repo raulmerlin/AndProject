@@ -295,7 +295,7 @@ public class EditBonsaiActivity extends Activity {
 	        editCountry.setText(ad.getCountryCode());
         } catch (IOException e) {
 			// TODO Auto-generated catch block
-         	Toast.makeText(this, "Error trying to get country " + e.toString(), Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Error trying to get country, turn on 3g please" + e.toString(), Toast.LENGTH_SHORT).show();
 		}
         
     }
@@ -304,7 +304,7 @@ public class EditBonsaiActivity extends Activity {
         Location loc = comenzarLocalizacion();
         
     	if(loc == null) {
-         	Toast.makeText(this, "Cannot get info about localization.", Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Error trying to get country, turn on 3g please", Toast.LENGTH_SHORT).show();
          	return;
     	}
     	
@@ -317,7 +317,7 @@ public class EditBonsaiActivity extends Activity {
  	        editpostCode.setText(ad.getPostalCode());
          } catch (Exception e) {
  			// TODO Auto-generated catch block
-         	Toast.makeText(this, "Error trying to get location " + e.toString(), Toast.LENGTH_SHORT).show();
+         	Toast.makeText(this, "Error trying to get country, turn on 3g please" + e.toString(), Toast.LENGTH_SHORT).show();
  		}
      	
      }

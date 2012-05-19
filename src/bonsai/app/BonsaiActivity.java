@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -34,6 +35,15 @@ public class BonsaiActivity extends Activity {
 	private TextView textTemperature;
 	private TextView textWeather;
 	private ImageView weatherIcon;
+	private Weather w;
+	private boolean weatherAvail;
+	
+	private String location;
+	private double temperature;
+	private String imageWeather;
+
+	private final Handler handler = new Handler();
+	
 	
 	
     /** Called when the activity is first created. */
@@ -42,6 +52,7 @@ public class BonsaiActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bonsai);
         
+
 
         name = (TextView)findViewById(R.id.textName);
         family = (TextView)findViewById(R.id.textFamily);
@@ -53,42 +64,25 @@ public class BonsaiActivity extends Activity {
         textTemperature = (TextView)findViewById(R.id.textTemperature);
         textWeather =(TextView)findViewById(R.id.textweather);
         weatherIcon = (ImageView)findViewById(R.id.imageWeather);
+        textWeather =(TextView)findViewById(R.id.textweather);
+        weatherIcon = (ImageView)findViewById(R.id.imageWeather);
         
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
         familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
         familydb.open();
+
         
-    /*    
-        try {
-        	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
-            startManagingCursor(bonsai);
-            name.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME)));
-            family.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY)));
-            String photouri = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_PHOTO));
-            if(photouri.length() > 1)
-            	photo.setImageURI(Uri.parse(photouri));
-            else photo.setImageResource(R.drawable.ic_launcher);
-            long date = new Date().getTime() / (1000*60*60);
-            age.setText("" + ((date - bonsai.getLong(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365*24)));
-            checkWater();
-            checkTransplant();
-            checkPode();
-            checkWeather();
-        	
-            
-        } catch (Exception e) {
-        	Toast.makeText(this, "None Bonsai selected", Toast.LENGTH_SHORT).show();
-        	
-        }
-        */
+
     }
+
+    
     
     @Override
     public void onResume() {
         super.onResume();
     	 try {
-         	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
+         	 Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
              startManagingCursor(bonsai);
              name.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME)));
              family.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY)));
@@ -103,59 +97,36 @@ public class BonsaiActivity extends Activity {
              checkTransplant();
              checkPode();
              checkWeather();
-         	
-             String location = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LOCALIZATION));
-             XmlParserSax saxparser =  new XmlParserSax("http://www.google.com/ig/api?weather="+location);
-             List<Weather> weather = saxparser.parse();
-             Weather w=weather.get(0);
-             textWeather.setText(Double.toString(w.getTempMedia())+" ºC");
-             String s=w.getIcon();
-             s=s.replaceAll("/ig/images/weather/", "");
-             s=s.replaceAll(".gif", "");
-             System.out.println("El nombre del icono que me queda es "+s);
-             if(s.equals("chance_of_rain"))
-               weatherIcon.setImageResource(R.drawable.chance_of_rain);
-             if(s.equals("chance_of_snow"))
-               weatherIcon.setImageResource(R.drawable.chance_of_snow);
-             if(s.equals("chance_of_storm"))
-               weatherIcon.setImageResource(R.drawable.chance_of_storm);
-             if(s.equals("cloudly"))
-               weatherIcon.setImageResource(R.drawable.cloudy);
-             if(s.equals("dust"))
-               weatherIcon.setImageResource(R.drawable.dust);
-             if(s.equals("fog"))
-               weatherIcon.setImageResource(R.drawable.fog);
-             if(s.equals("haze"))
-               weatherIcon.setImageResource(R.drawable.haze);
-             if(s.equals("icy")){
-               weatherIcon.setImageResource(R.drawable.icy);
-             Toast.makeText(this, "No es un buen dia para que su bonsai este en el exterior", Toast.LENGTH_SHORT).show();}
-             if(s.equals("mist"))
-               weatherIcon.setImageResource(R.drawable.mist);
-             if(s.equals("mostly_sunny"))
-               weatherIcon.setImageResource(R.drawable.mostly_sunny);
-             if(s.equals("smoke"))
-               weatherIcon.setImageResource(R.drawable.smoke);
-             if(s.equals("snow"))
-               weatherIcon.setImageResource(R.drawable.snow);
-             if(s.equals("storm"))
-               weatherIcon.setImageResource(R.drawable.storm);
-            if(s.equals("sunny")){
-               System.out.println("Estoy en el if de sunny!!!1");
-               weatherIcon.setImageResource(R.drawable.sunny);
-               Toast.makeText(this, "Su bonsai estara muy contento de poder hoy tomar el sol!!", Toast.LENGTH_LONG).show();}
-             if(s.equals("thunderstorm")){
-               weatherIcon.setImageResource(R.drawable.thunderstorm);
-               Toast.makeText(this, "Si su bonsai estÃ¡ en el exterior estarÃ¡ encantado de pasar a casa con Usted", Toast.LENGTH_SHORT).show();
-            }
+             weatherAction();
+            
              
              
              
+         	 
          } catch (Exception e) {
          	Toast.makeText(this, "None Bonsai selected", Toast.LENGTH_SHORT).show();
          	
          }
     }
+
+    
+    private void weatherAction() {
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+            	if(weatherAvail) {
+           	 		setTempInfo();
+           	 		setWeatherInfo();
+           	 		setWeatherComment();
+            	} else {
+            		weatherAction();
+            	}
+            }
+        }, 1000);
+        
+    }
+
+    
     
     public void goEdit(View v) {
     	try {
@@ -196,7 +167,6 @@ public class BonsaiActivity extends Activity {
     	long lastwatered;
     	long waterfrec;
     	int height = 30;
-    	int temperature = 20;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
     	
 
@@ -303,8 +273,142 @@ public class BonsaiActivity extends Activity {
     	
     }
     private void checkWeather() {
-    	
+       	weatherAvail = false;
+       	Thread thread = new Thread() {
+       		
+       		public void run() {
+       			try{
+       			Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
+       			startManagingCursor(bonsai);	
+       			location = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LOCALIZATION));
+       	        XmlParserSax saxparser =  new XmlParserSax("http://www.google.com/ig/api?weather="+location);
+       	        List<Weather> weather = saxparser.parse();
+       	        w=weather.get(0);
+       	     
+       	         temperature=w.getTempMedia();
+       	         String s=w.getIcon();
+       	         imageWeather = s;
+       	         weatherAvail = true;
+       	     	} catch(Exception e){
+       	     		System.out.println("Salta una excepcion: " + e.toString());
+
+       	     	}
+       			
+       		}
+       		
+       	};
+       	thread.start();	
     }
+    
+    public void setTempInfo() {
+    	try{
+	   		textWeather.setText(Double.toString(w.getTempMedia())+"ºC");
+    	} catch (Exception e) {
+    	
+    	}
+
+    }
+    
+    
+    public void setWeatherInfo() {
+    	try{
+		String s = imageWeather;
+	         s=s.replaceAll("/ig/images/weather/", "");
+	         s=s.replaceAll(".gif", "");
+	         System.out.println("El nombre del icono que me queda es "+s);
+	         if(s.equals("chance_of_rain")){
+	         	weatherIcon.setImageResource(R.drawable.chance_of_rain);
+	         }
+	         if(s.equals("chance_of_snow"))
+	         	weatherIcon.setImageResource(R.drawable.chance_of_snow);
+	         if(s.equals("chance_of_storm"))
+	         	weatherIcon.setImageResource(R.drawable.chance_of_storm);
+	         if(s.equals("cloudly"))
+	         	weatherIcon.setImageResource(R.drawable.cloudy);
+	         if(s.equals("dust"))
+	         	weatherIcon.setImageResource(R.drawable.dust);
+	         if(s.equals("fog"))
+	         	weatherIcon.setImageResource(R.drawable.fog);
+	         if(s.equals("haze"))
+	         	weatherIcon.setImageResource(R.drawable.haze);
+	         if(s.equals("icy")){
+	         	weatherIcon.setImageResource(R.drawable.icy);
+	         		}
+	         if(s.equals("mist"))
+	         	weatherIcon.setImageResource(R.drawable.mist);
+	         if(s.equals("mostly_sunny")){
+	         	weatherIcon.setImageResource(R.drawable.mostly_sunny);
+	         }
+	         if(s.equals("smoke"))
+	         	weatherIcon.setImageResource(R.drawable.smoke);
+	         if(s.equals("snow")){
+	         	weatherIcon.setImageResource(R.drawable.snow);
+	         		}
+	         if(s.equals("storm")){
+	         	weatherIcon.setImageResource(R.drawable.storm);
+	         		}
+	         if(s.equals("sunny")){
+	         	weatherIcon.setImageResource(R.drawable.sunny);
+	         	}
+	         if(s.equals("thunderstorm")){
+	         	weatherIcon.setImageResource(R.drawable.thunderstorm);
+	         }
+       	} catch (Exception e) {
+        	
+    	}
+
+    }
+    
+
+
+    public void setWeatherComment() {
+    	try{
+   	    	String situation; 	
+   			Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
+   			startManagingCursor(bonsai);	
+   	     	bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
+   	   		startManagingCursor(bonsai);	
+   	   		situation= bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_SITUATION));
+   	   		System.out.println("la situacion es "+situation);
+   	   		String s = imageWeather;
+	        s=s.replaceAll("/ig/images/weather/", "");
+	        s=s.replaceAll(".gif", "");
+	        System.out.println("El nombre del icono que me queda es " + s);
+
+	         if(s.equals("icy")){
+	         	if(situation.equals("Exterior"))
+	         	textTemperature.setText("Your Bonsai is frozen, please put it indoor");
+	         		}
+	         if(situation.equals("Interior"))
+	         	textTemperature.setText("Your Bonsai would like to have some sunbathing today");
+	         
+	         if(s.equals("smoke"))
+	         if(s.equals("snow")){
+	         	if(situation.equals("Exterior"))
+	             	textTemperature.setText("Your Bonsai looks like snowman");
+	         		}
+	         if(s.equals("storm")){
+	         	if(situation.equals("Exterior"))
+	             	textTemperature.setText("Your Bonsai is scare of thunderstorm");
+	         		}
+	         if(s.equals("sunny")){
+	         	if(situation.equals("Interior"))
+	             	textTemperature.setText("Your Bonsai would like to " +
+	             			"have some sunbathing today");
+	         	}
+	         if(s.equals("thunderstorm")){
+	         	if(situation.equals("Exterior"))
+	             	textTemperature.setText("Your Bonsai is scare of thunderstorm");
+	         }
+       	} catch (Exception e) {
+        	
+    	}
+
+    }
+    
+
+    
+    
     
     public void makeWater(View v) {
     	String name = "";
