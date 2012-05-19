@@ -7,7 +7,12 @@ import bonsai.app.weather.Weather;
 import bonsai.app.weather.XmlParserSax;
 
 import android.app.ListActivity;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.ArrayAdapter;
@@ -30,6 +35,15 @@ public class TaskActivity extends ListActivity {
 	private boolean flagWeather=false;
 	private long idtemp;
 	private Weather w;
+	private List<Weather> weather;
+	
+	
+	int icono = android.R.drawable.stat_sys_warning;
+	CharSequence textoEstado = "Servicio atención a su/s bonsai";
+	long hora;
+	private static final int NOTIF_ALERTA_ID = 1;
+
+
 
 	
 	
@@ -67,6 +81,8 @@ public class TaskActivity extends ListActivity {
            	long id = bonsaisCursor.getLong(bonsaisCursor.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
            	Cursor bonsai = bonsaidb.fetchBonsai(id);
   			startManagingCursor(bonsai);
+  			//si la localización del siguiente bonsai, es la misma que este no
+  			//vuelvo a calcular la temperatura
            	if(location!=bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LOCALIZATION)))
            		flagWeather=false;
            	if(flagWeather==false);
@@ -103,17 +119,17 @@ public class TaskActivity extends ListActivity {
            }
            
            	setListAdapter(new ArrayAdapter<String>(this, R.layout.task_row, finaltasks));
-           
     }
     
 
-    private String checkWater(long id) {
+	private String checkWater(long id) {
     	String name;
     	String family;
     	long lastwatered;
     	long waterfrec;
     	int height = 30;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
+   
     	
 
         try {
@@ -128,18 +144,67 @@ public class TaskActivity extends ListActivity {
         	startManagingCursor(cfamily);
         	waterfrec = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_WATER_FRECUENCY));
         	
+
+        	long proxnotificacion=lastwatered+waterfrec;
+        	//la próxima notificación será 24 horas despúes de la última vez que se 
+        	//regó
+        	
+        	//si está en el exterior y está lloviendo puedo estar un día sin
+        	//avisar
+        	Weather w2=weather.get(1);
+        	if(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_SITUATION))=="Exterior"){
+        		if(w2.getIcon()=="storm"){
+        			if(hoursTime -lastwatered<24){
+        				proxnotificacion=proxnotificacion+24;
+        				
+        			}
+        			
+        		}     		
+        	}    
+        	
+        	//Obtenemos una referencia al servicio de notificaciones
+        	String ns = Context.NOTIFICATION_SERVICE;
+        	NotificationManager notManager =
+        	    (NotificationManager) getSystemService(ns);
+        	
+        	System.out.println("La notificación saltará en la hora "+proxnotificacion);
+        	
+        	
+        	Notification notif =
+        		    new Notification(icono, textoEstado, proxnotificacion*1000*60*60);
+        	
+        	//Configuramos el Intent
+        	Context contexto = getApplicationContext();
+        	CharSequence titulo = "Mensaje de Bonsai Cares";
+        	CharSequence descripcion = "Notificación de riego";
+        	 
+        	Intent notIntent = new Intent(contexto,
+        	    TaskActivity.class);
+        	 
+        	PendingIntent contIntent = PendingIntent.getActivity(
+        	    contexto, 0, notIntent, 0);
+        	 
+        	notif.setLatestEventInfo(
+        	    contexto, titulo, descripcion, contIntent);
+        	//AutoCancel: cuando se pulsa la notificaión ésta desaparece
+        	notif.flags |= Notification.FLAG_AUTO_CANCEL;
+            notManager.notify(NOTIF_ALERTA_ID, notif);      
+        	
+        	
         	// LOGICA DE REGADO
         	
         	if(lastwatered == 0) return ("Set water info on " + name);
         	else if(w.getTempMax() > 35) return("Water " + name + " 2 times with " + height/4 + " cl.");
-        	else if(w.getTempMin() < 0) return null;
+        	else if(w.getTempMedia() < 0) return null;
         	else if((hoursTime - lastwatered) > waterfrec) return("Water " + name + " today once with " + height/2 +" cl.");
         	else return null;
+ 
         	
         } catch(Exception e) {
         	System.out.println(e.toString());
         	return null;
         }
+		
     	
     }
     private String checkTransplant(long id) {
@@ -240,7 +305,7 @@ public class TaskActivity extends ListActivity {
       			location = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LOCALIZATION));
       	        XmlParserSax saxparser =  new XmlParserSax("http://www.google.com/ig/api?weather="+location);
       	      dialog.dismiss();
-      	        List<Weather> weather = saxparser.parse();
+      	        weather = saxparser.parse();
       	        w=weather.get(0);
       	        System.out.println("La temperatura de w es " +w.getTempMax());
       				

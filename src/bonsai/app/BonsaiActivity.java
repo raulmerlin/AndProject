@@ -393,7 +393,7 @@ public class BonsaiActivity extends Activity {
 	         	if(situation.equals("Exterior"))
 	             	textTemperature.setText("Your Bonsai looks like snowman");
 	         		}
-	         if(s.equals("storm")||s.equals("thunderstorm")){
+	         if(s.equals("thunderstorm")){
 	         	if(situation.equals("Exterior"))
 	             	textTemperature.setText("Your Bonsai is scare of thunderstorm");
 	         		}
