@@ -42,6 +42,7 @@ public final class R {
         public static final int ImageView01=0x7f06000d;
         public static final int bonsaiImage=0x7f060002;
         public static final int bonsairowtext=0x7f060018;
+        public static final int btnAlarm=0x7f06002e;
         public static final int btnCountry=0x7f060027;
         public static final int btnPostCode=0x7f060025;
         public static final int button1=0x7f060021;

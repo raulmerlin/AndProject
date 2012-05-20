@@ -1,21 +1,25 @@
 package bonsai.app;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import bonsai.app.alarm.alarmChecker;
 import bonsai.app.weather.Weather;
 import bonsai.app.weather.XmlParserSax;
 
+import android.app.AlarmManager;
 import android.app.ListActivity;
-import android.app.Notification;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
+
 import android.app.ProgressDialog;
-import android.content.Context;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class TaskActivity extends ListActivity {
@@ -36,16 +40,8 @@ public class TaskActivity extends ListActivity {
 	private long idtemp;
 	private Weather w;
 	private List<Weather> weather;
-	
-	
-	int icono = android.R.drawable.stat_sys_warning;
-	CharSequence textoEstado = "Servicio atención a su/s bonsai";
-	long hora;
-	private static final int NOTIF_ALERTA_ID = 1;
-
-
-
-	
+	Button m_btnAlarma = null;
+	private static PendingIntent pendingIntent;
 	
     /** Called when the activity is first created. */
     @Override
@@ -53,11 +49,15 @@ public class TaskActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task);
         
-        
-     
-
      //   ListView lv = getListView();
      //   lv.setTextFilterEnabled(true);
+        
+        m_btnAlarma = ((Button)findViewById(R.id.btnAlarm));
+        m_btnAlarma.setOnClickListener(
+                new View.OnClickListener() {
+                    public void onClick(View view) {
+                        CambiarEstadoAlarma();
+                    }});
 
         
         
@@ -144,52 +144,8 @@ public class TaskActivity extends ListActivity {
         	startManagingCursor(cfamily);
         	waterfrec = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_WATER_FRECUENCY));
         	
-
-        	long proxnotificacion=lastwatered+waterfrec;
-        	//la próxima notificación será 24 horas despúes de la última vez que se 
-        	//regó
         	
-        	//si está en el exterior y está lloviendo puedo estar un día sin
-        	//avisar
-        	Weather w2=weather.get(1);
-        	if(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_SITUATION))=="Exterior"){
-        		if(w2.getIcon()=="storm"){
-        			if(hoursTime -lastwatered<24){
-        				proxnotificacion=proxnotificacion+24;
-        				
-        			}
-        			
-        		}     		
-        	}    
-        	
-        	//Obtenemos una referencia al servicio de notificaciones
-        	String ns = Context.NOTIFICATION_SERVICE;
-        	NotificationManager notManager =
-        	    (NotificationManager) getSystemService(ns);
-        	
-        	System.out.println("La notificación saltará en la hora "+proxnotificacion);
-        	
-        	
-        	Notification notif =
-        		    new Notification(icono, textoEstado, proxnotificacion*1000*60*60);
-        	
-        	//Configuramos el Intent
-        	Context contexto = getApplicationContext();
-        	CharSequence titulo = "Mensaje de Bonsai Cares";
-        	CharSequence descripcion = "Notificación de riego";
-        	 
-        	Intent notIntent = new Intent(contexto,
-        	    TaskActivity.class);
-        	 
-        	PendingIntent contIntent = PendingIntent.getActivity(
-        	    contexto, 0, notIntent, 0);
-        	 
-        	notif.setLatestEventInfo(
-        	    contexto, titulo, descripcion, contIntent);
-        	//AutoCancel: cuando se pulsa la notificaión ésta desaparece
-        	notif.flags |= Notification.FLAG_AUTO_CANCEL;
-            notManager.notify(NOTIF_ALERTA_ID, notif);      
-        	
+        
         	
         	// LOGICA DE REGADO
         	
@@ -326,4 +282,55 @@ public class TaskActivity extends ListActivity {
     	
    	
     }
+    
+    
+    /**
+     * Desactiva o activa la alarma, estableciendola al estado contrario del actual
+     */
+    private void CambiarEstadoAlarma()
+    {
+        if (pendingIntent == null)
+        {
+            //La alarma está desactivada, la activamos
+            ActivarAlarma();
+        }else
+        {
+            //La alarma está activada, la desactivamos
+            DesactivarAlarma();
+        }
+    }
+    
+    private void DesactivarAlarma()
+    {
+         AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+         alarmManager.cancel(pendingIntent);
+ 
+         m_btnAlarma.setText("Alarm OFF");
+         pendingIntent = null;
+ 
+         Toast.makeText(TaskActivity.this, "Notifications is OFF", Toast.LENGTH_LONG).show();
+ 
+    }
+    
+    private void ActivarAlarma()
+    {
+ 
+        int comprobacionIntervaloSegundos = 1;
+ 
+           Intent myIntent = new Intent(TaskActivity.this, alarmChecker.class);
+           pendingIntent = PendingIntent.getService(TaskActivity.this, 0, myIntent, 0);
+ 
+           AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+ 
+           Calendar calendar = Calendar.getInstance();
+           calendar.setTimeInMillis(System.currentTimeMillis());
+           calendar.add(Calendar.SECOND, 10);
+           alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), comprobacionIntervaloSegundos * 1000, pendingIntent);
+ 
+           m_btnAlarma.setText("Alarm ON");
+ 
+           Toast.makeText(TaskActivity.this, "Notification is ON", Toast.LENGTH_LONG).show();
+ 
+    }
+ 
 }
