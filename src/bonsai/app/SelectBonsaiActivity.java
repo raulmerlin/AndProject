@@ -53,8 +53,7 @@ public class SelectBonsaiActivity extends ListActivity {
         try {
         	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
             startManagingCursor(bonsai);
-            String nombre = bonsai.getString(
-                    bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
+            //String nombre = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
         	//Toast.makeText(this, "El bonsai actual es: " + nombre, Toast.LENGTH_SHORT).show();
 
         	AndroidProjectActivity tabs = (AndroidProjectActivity) this.getParent();

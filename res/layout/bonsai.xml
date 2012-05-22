@@ -26,7 +26,8 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
-                android:src="@drawable/ic_launcher" android:onClick="toastImage"/>
+                android:src="@drawable/ic_launcher"
+                android:onClick="toastImage" android:contentDescription="@string/image_desc_bonsai"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,14 +38,14 @@
                     android:id="@+id/textName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NOMBRE"
+                    android:text="@string/bonsai_text_name"
                     android:textAppearance="?android:attr/textAppearanceLarge" />
 
                 <TextView
                     android:id="@+id/textFamily"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Especie"
+                    android:text="@string/bonsai_text_family"
                     android:textAppearance="?android:attr/textAppearanceMedium" />
 
                 <LinearLayout
@@ -59,8 +60,7 @@
 
                         <LinearLayout
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="0.48" >
+                            android:layout_height="wrap_content" >
 
                             <TextView
                                 android:id="@+id/textYears"
@@ -68,7 +68,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="2dp"
                                 android:layout_weight="0.48"
-                                android:text="10"
+                                android:text="@string/years_n_text"
                                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
                             <TextView
@@ -76,7 +76,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="0.48"
-                                android:text="years"
+                                android:text="@string/years_text"
                                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
                         </LinearLayout>
@@ -86,7 +86,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:text="Loading..."
+                            android:text="@string/loading_text"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
                     </LinearLayout>
@@ -97,7 +97,7 @@
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:layout_margin="10dp"
-                        android:layout_weight="0.48" />
+                        android:layout_weight="0.48" android:contentDescription="@string/weather_img"/>
 
                 </LinearLayout>
 
@@ -118,13 +118,13 @@
                 	    android:id="@+id/imageView2"
                     	android:layout_width="wrap_content"
                     	android:layout_height="wrap_content"
-                    	android:src="@android:drawable/ic_media_play" />
+                    	android:src="@android:drawable/ic_media_play" android:contentDescription="@string/arrow_text"/>
 
                     <TextView
                     	android:id="@+id/textWater"
                         android:layout_gravity="center_vertical"
                         android:padding="3dip"
-                        android:text="No info about waters" />
+                        android:text="@string/water_no_info" />
                 
             </TableRow>
             
@@ -137,13 +137,13 @@
                     android:id="@+id/ImageView01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_media_play" />
+                    android:src="@android:drawable/ic_media_play" android:contentDescription="@string/arrow_text"/>
 
                 <TextView
                     android:id="@+id/textPrune"
                     android:layout_gravity="center_vertical"
                     android:padding="3dip"
-                    android:text="No info about prunes" />
+                    android:text="@string/pode_no_info" />
                 
             </TableRow>
            
@@ -156,38 +156,39 @@
                     android:id="@+id/imageView4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_media_play" />
+                    android:src="@android:drawable/ic_media_play" android:contentDescription="@string/arrow_text"/>
 
                 <TextView
                     android:id="@+id/textTransplant"
                     android:layout_gravity="center_vertical"
                     android:padding="3dip"
-                    android:text="No info about transplants" />
+                    android:text="@string/transplant_no_info" />
                 
             </TableRow>
             
             <TableRow
-                android:id="@+id/tableRow2"
+                android:id="@+id/tableRow4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
 
                 <ImageView
-                    android:id="@+id/imageView4"
+                    android:id="@+id/imageView5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@android:drawable/ic_media_play" />
+                    android:src="@android:drawable/ic_media_play" android:contentDescription="@string/arrow_text"/>
 
                 <TextView
                   	android:id="@+id/textTemperature"
                     android:layout_gravity="center_vertical"
                     android:padding="3dip"
-                    android:text="No weather info" />
+                    android:text="@string/weather_no_info" />
                 
             </TableRow>
 
         </TableLayout>
 
         <LinearLayout
+            android:id="@+id/scrollMore"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:orientation="vertical" >
@@ -217,7 +218,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/ic_water"
-                android:onClick="makeWater" />
+                android:onClick="makeWater" android:contentDescription="@string/water_button"/>
 
             <ImageButton
                 android:id="@+id/podeButton"
@@ -225,7 +226,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="makePode"
-                android:src="@drawable/ic_pode" />
+                android:src="@drawable/ic_pode" android:contentDescription="@string/pode_button"/>
 
             <ImageButton
                 android:id="@+id/imageButton1"
@@ -233,7 +234,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:src="@drawable/ic_transplant" 
-                android:onClick="makeTransplant" />
+                android:onClick="makeTransplant" android:contentDescription="@string/transplant_button"/>
 
 
             <ImageButton
@@ -242,7 +243,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="goEdit"
-                android:src="@android:drawable/ic_menu_manage" />
+                android:src="@android:drawable/ic_menu_manage" android:contentDescription="@string/edit_button"/>
         </LinearLayout>
     </RelativeLayout>
 

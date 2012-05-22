@@ -11,7 +11,7 @@
 
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical" >
 
             <TableLayout
@@ -24,12 +24,12 @@
                     <TextView
                         android:layout_column="1"
                         android:padding="3dip"
-                        android:text="Name" />
+                        android:text="@string/tname" />
 
                     
 
                     <EditText android:id="@+id/editName"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content" android:inputType="text">
 
                     </EditText>
                 </TableRow>
@@ -39,7 +39,7 @@
                     <TextView
                         android:layout_column="1"
                         android:padding="3dip"
-                        android:text="Family" />
+                        android:text="@string/tfamily" />
                     <Spinner
                         android:id="@+id/familySpinner"
                         android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
                     <TextView
                         android:layout_column="1"
                         android:padding="3dip"
-                        android:text="Age" />
+                        android:text="@string/tage" />
 
                     <EditText android:id="@+id/editAge"
                         android:inputType="number" 
@@ -64,7 +64,7 @@
                     <TextView
                         android:layout_column="1"
                         android:padding="3dip"
-                        android:text="Height" />
+                        android:text="@string/theight" />
 
                     <EditText android:id="@+id/editHeight"
                         android:inputType="number" 
@@ -77,7 +77,7 @@
                     <TextView
                         android:layout_column="1"
                         android:padding="3dip"
-                        android:text="Photo" />
+                        android:text="@string/tphoto" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -97,14 +97,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:onClick="selectImage"
-                            android:text="Select"/>
+                            android:text="@string/tselect"/>
 
                         <Button
                             android:id="@+id/button2"
                             style="?android:attr/buttonStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Delete"
+                            android:text="@string/tdelete"
                             android:onClick="deleteImage" />
 
                     </LinearLayout>
@@ -115,7 +115,7 @@
                     <TextView
                         android:layout_column="1"
                         android:padding="3dip"
-                        android:text="Situation" />
+                        android:text="@string/tsituation" />
 
                     <Spinner
                         android:id="@+id/spinner1"
@@ -127,7 +127,7 @@
                     <TextView
                         android:layout_column="1"
                         android:padding="3dip"
-                        android:text="PostalCode" />
+                        android:text="@string/tpostalcode" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -138,6 +138,7 @@
                             android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.78"
+                        	android:inputType="number" 
                             android:ems="10" >
 
                             <requestFocus />
@@ -148,7 +149,7 @@
                             style="?android:attr/buttonStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="localiza"
+                            android:text="@string/tlocalize"
                             android:onClick="goMakePostCode" />
                         
                     </LinearLayout>
@@ -171,6 +172,7 @@
                             android:layout_width="140dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="0.96"
+                        	android:inputType="number" 
                             android:ems="10" >
 
                             <requestFocus />
@@ -181,7 +183,7 @@
                             style="?android:attr/buttonStyleSmall"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="localiza"
+                            android:text="@string/tlocalize"
                         	android:onClick="goMakeCountry" />
                     </LinearLayout>
 
@@ -193,6 +195,7 @@
                     android:background="#FF909090" />
 
     <LinearLayout
+        android:id="@+id/scrollMore"
         android:layout_width="wrap_content"
         android:layout_height="45dp">
     </LinearLayout>
@@ -221,7 +224,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="goSave"
-                android:src="@android:drawable/ic_menu_save" />
+                android:src="@android:drawable/ic_menu_save" android:contentDescription="@string/save_button"/>
 
             <ImageButton
                 android:id="@+id/imageButton3"
@@ -229,7 +232,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="goDelete"
-                android:src="@android:drawable/ic_menu_delete" />
+                android:src="@android:drawable/ic_menu_delete" android:contentDescription="@string/delete_button"/>
 
             <ImageButton
                 android:id="@+id/imageButton2"
@@ -237,7 +240,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:onClick="goCancel"
-                android:src="@android:drawable/ic_menu_close_clear_cancel" />
+                android:src="@android:drawable/ic_menu_close_clear_cancel" android:contentDescription="@string/cancel_button"/>
         </LinearLayout>
     </RelativeLayout>
 

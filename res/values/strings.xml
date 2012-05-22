@@ -13,6 +13,36 @@
         <item>Carmona Mircophilla</item>
         <item>Picea Glauca Conica</item>
     </string-array>
+    <string name="tname">"Name"</string>
+    <string name="tfamily">"Family"</string>
+    <string name="tage">"Age"</string>
+    <string name="theight">"Height"</string>
+    <string name="tphoto">"Photo"</string>
+    <string name="tselect">"Select"</string>
+    <string name="tdelete">"Delete"</string>
+    <string name="tsituation">"Situation"</string>
+    <string name="tpostalcode">"Postal Code"</string>
+    <string name="tlocalize">"Get It"</string>
+    <string name="image_desc_bonsai">"Bonsai Image"</string>
+    <string name="bonsai_text_name">"NAME"</string>
+    <string name="bonsai_text_family">"Family"</string>
+    <string name="arrow_text">"->"</string>
+    <string name="years_n_text">"X"</string>
+    <string name="years_text">"years"</string>
+    <string name="loading_text">"Loading.."</string>
+    <string name="weather_img">"Weather"</string>
+    <string name="water_no_info">"No info about waters"</string>
+    <string name="pode_no_info">"No info about prunes"</string>
+    <string name="transplant_no_info">"No info about transplant"</string>
+    <string name="weather_no_info">"No weather info"</string>
+    <string name="water_button">"Water"</string>
+    <string name="pode_button">"Prune"</string>
+    <string name="transplant_button">"Transplant"</string>
+    <string name="edit_button">"Edit"</string>
+    <string name="save_button">"Save"</string>
+    <string name="delete_button">"Delete"</string>
+    <string name="cancel_button">"Cancel"</string>
+    
     
     
 
