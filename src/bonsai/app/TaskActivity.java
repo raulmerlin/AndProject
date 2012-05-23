@@ -5,7 +5,11 @@ import java.util.Date;
 import android.app.ListActivity;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 public class TaskActivity extends ListActivity {
 	
@@ -187,7 +191,7 @@ public class TaskActivity extends ListActivity {
         	
         	// LOGICA DE TRANSPLANTE
         	if(lastpode == 0) return("Set info about " + name + " prunes.");
-        	else if(age < 2) {	// Los bonsais con menos de dos a–os se suelen defoliar al 50% cada 2 meses, aprox
+        	else if(age < 2) {	// Los bonsais con menos de dos aï¿½os se suelen defoliar al 50% cada 2 meses, aprox
         		if(hoursTime - lastpode > 60 * 24) return("Defoliate " + name + " 50%");
         		else return null;
         	}
@@ -198,5 +202,24 @@ public class TaskActivity extends ListActivity {
         	System.out.println(e.toString());
         	return null;
         }	
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.MnuOpc1:
+            	Toast.makeText(this,"Displays the daily care of your bonsai. Press Alarm ON / OFF to enable / disable notifications for the taskbar of your device", Toast.LENGTH_LONG).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

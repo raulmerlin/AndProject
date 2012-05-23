@@ -9,6 +9,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -440,6 +443,25 @@ public class BonsaiActivity extends Activity {
     	bonsaidb.transplantBonsai(AndroidProjectActivity.bonsaiactual, hoursTime);
     	Toast.makeText(this, name + " has been transplanted.", Toast.LENGTH_LONG).show();
     	onResume();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.MnuOpc1:
+            	Toast.makeText(this,"Display current information about the status of your bonsai", Toast.LENGTH_LONG).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
 }
