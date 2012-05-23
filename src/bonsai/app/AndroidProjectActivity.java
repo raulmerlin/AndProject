@@ -47,7 +47,7 @@ public class AndroidProjectActivity extends TabActivity {
 
 	    // Create an Intent to launch an Activity for the tab (to be reused)
 	    intent = new Intent().setClass(this, SelectBonsaiActivity.class);
-	    spec = tabHost.newTabSpec("all").setIndicator("All",
+	    spec = tabHost.newTabSpec("all").setIndicator("",
 	                      res.getDrawable(R.drawable.ic_tab_selectbonsai))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
@@ -55,20 +55,20 @@ public class AndroidProjectActivity extends TabActivity {
 	    // Initialize a TabSpec for each tab and add it to the TabHost
 	    
 	    intent = new Intent().setClass(this, BonsaiActivity.class);
-	    spec = tabHost.newTabSpec("bonsai").setIndicator("Bonsai",
+	    spec = tabHost.newTabSpec("bonsai").setIndicator("",
 	                      res.getDrawable(R.drawable.ic_tab_bonsai))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, TaskActivity.class);
-	    spec = tabHost.newTabSpec("calendar").setIndicator("Today Tasks",
+	    spec = tabHost.newTabSpec("calendar").setIndicator("",
 	                      res.getDrawable(R.drawable.ic_tab_calendar))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
 	    
 	    intent = new Intent().setClass(this, MoreActivity.class);
-	    spec = tabHost.newTabSpec("more").setIndicator("More",
+	    spec = tabHost.newTabSpec("more").setIndicator("",
 	                      res.getDrawable(R.drawable.ic_tab_more))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
