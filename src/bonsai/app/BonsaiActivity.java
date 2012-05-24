@@ -97,10 +97,11 @@ public class BonsaiActivity extends Activity {
              long date = new Date().getTime() / (1000*60*60);
              age.setText("" + ((date - bonsai.getLong(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365*24)));
              checkWeather();
+             weatherAction();
              checkWater();
              checkTransplant();
              checkPode();
-             weatherAction();
+      
             
              
              
@@ -396,6 +397,10 @@ public class BonsaiActivity extends Activity {
 	             	textTemperature.setText("Your Bonsai would like to " +
 	             			"have some sunbathing today");
 	         	}
+	         else{
+	        	 textTemperature.setText("The weather is ok for you bonsai");
+	        	 
+	         }
        	} catch (Exception e) {
         	
     	}

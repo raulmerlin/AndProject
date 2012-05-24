@@ -49,9 +49,10 @@ public final class R {
     }
     public static final class id {
         public static final int ImageView01=0x7f07000d;
-        public static final int MnuOpc1=0x7f070030;
+        public static final int MnuOpc1=0x7f070031;
         public static final int bonsaiImage=0x7f070002;
         public static final int bonsairowtext=0x7f07001b;
+        public static final int btnAlarm=0x7f070030;
         public static final int btnCountry=0x7f07002a;
         public static final int btnPostCode=0x7f070028;
         public static final int button1=0x7f070024;
