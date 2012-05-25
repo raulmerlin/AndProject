@@ -1,14 +1,10 @@
 package bonsai.app;
 
-import java.util.Calendar;
+
 import java.util.Date;
 import java.util.List;
-
-
-import bonsai.app.alarm.AlarmChecker;
 import bonsai.app.weather.Weather;
 import bonsai.app.weather.XmlParserSax;
-
 import android.app.AlarmManager;
 import android.app.ListActivity;
 import android.app.PendingIntent;
@@ -59,6 +55,8 @@ public class TaskActivity extends ListActivity {
                     public void onClick(View view) {
                         CambiarEstadoAlarma();
                     }});
+        
+        
      //   ListView lv = getListView();
      //   lv.setTextFilterEnabled(true);
 
@@ -336,27 +334,49 @@ public class TaskActivity extends ListActivity {
     private void ActivarAlarma()
     {
     
-        int comprobacionIntervaloSegundos = 5;
- /**
-           Intent myIntent = new Intent(TaskActivity.this, AlarmChecker.class);
-           pendingIntent = PendingIntent.getService(TaskActivity.this, 0, myIntent, 0);
- 
-           AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
- 
-           Calendar calendar = Calendar.getInstance();
-           calendar.setTimeInMillis(System.currentTimeMillis());
-           calendar.add(Calendar.SECOND, 10);
-           alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), comprobacionIntervaloSegundos * 1000, pendingIntent);
- */
-    	
-        	AlarmManager manager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+   	
+          AlarmManager manager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
     	  Intent 	 	 intent  = new Intent(this, MyReceiver.class);
           PendingIntent pIntent = PendingIntent.getBroadcast(this, ALARM_REQUEST_CODE, intent,  PendingIntent.FLAG_CANCEL_CURRENT);
-          manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 3 * 1000, pIntent);
-    	  
+   
+      //   Código que salta una notificación en 5 segundos para comprobar su funcionamiento!!
+      //    Para que funcione la demo de notificación en 5 segundos hay que comentar la otra
+      //    int comprobacionIntervaloSegundos = 5;
+      //    manager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + comprobacionIntervaloSegundos * 1000, pIntent);
+            manager.set(AlarmManager.RTC_WAKEUP, checkWaterNotification(), pIntent);
+          
           m_btnAlarma.setText("Alarm ON");
  
-           Toast.makeText(TaskActivity.this, "Notification is ON", Toast.LENGTH_LONG).show();
+          Toast.makeText(TaskActivity.this, "Notification is ON", Toast.LENGTH_LONG).show();
  
     }
+    
+    private long checkWaterNotification() {
+    	 long riego = 0;
+    	 Cursor bonsaisCursor = bonsaidb.fetchAllBonsais();
+         startManagingCursor(bonsaisCursor);
+         bonsaisCursor.moveToFirst();
+         for(int i = 0; i < bonsaisCursor.getCount(); i++) {
+        	  	long id = bonsaisCursor.getLong(bonsaisCursor.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
+               	Cursor bonsai = bonsaidb.fetchBonsai(id);
+      			startManagingCursor(bonsai);
+      			long lastWater = bonsaisCursor.getLong(bonsaisCursor.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LAST_WATER));
+      			String family = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY));
+      			Cursor cfamily = familydb.fetchFamilybyName(family);
+            	startManagingCursor(cfamily);
+            	long waterfrec = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_WATER_FRECUENCY));
+            	long proxriego=lastWater+waterfrec;
+            	if(i==0) riego=proxriego;
+            	else if(proxriego<riego) riego=proxriego;
+      			if(i < bonsaisCursor.getCount()-1) bonsaisCursor.moveToNext();
+         
+         }
+         System.out.println("Ahora son las "+System.currentTimeMillis()/(1000*60*60));
+         System.out.println("La notificación del riego será a las "+riego);
+         return riego*1000*60*60;
+         
+    	
+    	
+    }
+    
 }
