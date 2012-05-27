@@ -1,15 +1,28 @@
 package bonsai.app;
 
 import java.util.Date;
-
+import bonsai.app.alarm.NotificationService;
 import android.app.ListActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Toast;
 
+/*
+ * Task Activity. Shows all pending activities for all bonsais on a list
+ * 
+ * @author: Raul de Pablos Martin
+ * 		    Ruben Valero Garcia
+ * @version: May 2012
+ */
 public class TaskActivity extends ListActivity {
 	
-
 	private BonsaiDbUtil bonsaidb;
 	private FamilyDbUtil familydb;
 	private String[] tasks;
@@ -20,16 +33,9 @@ public class TaskActivity extends ListActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task);
-        
-        
-     
-
-     //   ListView lv = getListView();
-     //   lv.setTextFilterEnabled(true);
-
-        
-        
     }
+    
+    /** Called when activity is shown. */
     @Override
     public void onResume() {
         super.onResume();
@@ -38,37 +44,47 @@ public class TaskActivity extends ListActivity {
            familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
            familydb.open();
            
-           Cursor bonsaisCursor = bonsaidb.fetchAllBonsais();
+           Cursor bonsaisCursor = bonsaidb.fetchAllBonsais();	// Cogemos todos los bonsais
            startManagingCursor(bonsaisCursor);
-
-           tasks = new String[bonsaisCursor.getCount() * 3];
+           tasks = new String[bonsaisCursor.getCount() * 3];	// Creamos la lista de tareas
            cont = 0;
            
-           bonsaisCursor.moveToFirst();
-           for(int i = 0; i < bonsaisCursor.getCount(); i++) {
-           	long id = bonsaisCursor.getLong(bonsaisCursor.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
-           	String possibletask = checkWater(id);
-           	if(possibletask != null) {
-           		tasks[cont] = possibletask;
-           		cont++;
-           	}
-           	possibletask = checkPode(id);
-           	if(possibletask != null) {
-           		tasks[cont] = possibletask;
-           		cont++;
-           	}
-           	possibletask = checkTransplant(id);
-           	if(possibletask != null) {
-           		tasks[cont] = possibletask;
-           		cont++;
-           	}
-           	if(i < bonsaisCursor.getCount()-1) bonsaisCursor.moveToNext();
+           bonsaisCursor.moveToFirst();		// Cogemos el primer bonsai de todos
+           
+           for(int i = 0; i < bonsaisCursor.getCount(); i++) {	// Desde el primero hasta el ultimo
+        	   long id = bonsaisCursor.getLong(bonsaisCursor.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
+        	   Cursor bonsai = bonsaidb.fetchBonsai(id);
+        	   startManagingCursor(bonsai);
+        	   
+           	
+           		String possibletask = checkWater(id);	// Si hay que regarlo, se pone en la lista
+           		if(possibletask != null) {
+           			tasks[cont] = possibletask;
+           			cont++;
+           		}
+           		
+           		possibletask = checkPode(id);			// Si hay que podarlo, se pone en la lista
+           		if(possibletask != null) {
+           			tasks[cont] = possibletask;
+           			cont++;
+           		}
+           		
+           		possibletask = checkTransplant(id);		// Si hay que trasplantarlo, se pone en la lista
+           		if(possibletask != null) {
+           			tasks[cont] = possibletask;
+           			cont++;
+           		}
+           		
+           		if(i < bonsaisCursor.getCount()-1) bonsaisCursor.moveToNext();	// Siguiente bonsai
            }
            
+           // Contamos el numero de tareas
            int cuenta = 0;
            for(int i = 0; i < tasks.length; i++) {
         	   if(tasks[i] != null) cuenta++;
            }
+           
+           // Creamos el array con las tareas sin nulos
            int situac = 0;
            String[] finaltasks = new String[cuenta];
            for(int i = 0; i < tasks.length; i++){
@@ -78,18 +94,47 @@ public class TaskActivity extends ListActivity {
         	   }
            }
            
-           	setListAdapter(new ArrayAdapter<String>(this, R.layout.task_row, finaltasks));
+           // Y finalmente, mostramos las tareas
+           setListAdapter(new ArrayAdapter<String>(this, R.layout.task_row, finaltasks));
            
     }
     
-
+    
+    /** This happens when menu key is pressed */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    /** This happens when first menu option is selected */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.MnuOpc1:
+            	Toast.makeText(this,"Displays the daily care of your bonsai. Press Alarm ON / OFF to enable / disable notifications for the taskbar of your device", Toast.LENGTH_LONG).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    
+    /*
+     * checkWater - Devuelve la accion a realizar respecto al riego de cierto bonsai, a partir
+     * de su ultimo riego, su frecuencia de regado y su tama–o.
+     * 
+     * @param id - fila de la base de datos del bonsai a comprobar
+     * @return String con la accion a realizar, o null si no hay que hacer nada.
+     * 
+     */
     private String checkWater(long id) {
     	String name;
     	String family;
     	long lastwatered;
     	long waterfrec;
     	int height = 30;
-    	int temperature = 20;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
     	
 
@@ -108,17 +153,23 @@ public class TaskActivity extends ListActivity {
         	// LOGICA DE REGADO
         	
         	if(lastwatered == 0) return ("Set water info on " + name);
-        	else if(temperature > 35) return("Water " + name + " 2 times with " + height/4 + " cl.");
-        	else if(temperature < 0) return null;
         	else if((hoursTime - lastwatered) > waterfrec) return("Water " + name + " today once with " + height/2 +" cl.");
         	else return null;
         	
         } catch(Exception e) {
-        	System.out.println(e.toString());
+        	System.out.println("checkWater " + e.toString());
         	return null;
         }
     	
     }
+    
+    /*
+     * checkTransplant - Devuelve la accion a realizar respecto al trasplante de cierto bonsai, a partir
+     * de su ultimo trasplante y su frecuencia de trasplante.
+     * 
+     * @param id - fila de la base de datos del bonsai a comprobar
+     * @return String con la accion a realizar, o null si no hay que hacer nada.
+     */
     private String checkTransplant(long id) {
     	String name;
     	String family;
@@ -155,11 +206,19 @@ public class TaskActivity extends ListActivity {
         	}
         	
         } catch(Exception e) {
-        	System.out.println(e.toString());
+        	System.out.println("checkTransplant" + e.toString());
         	return null;
         }
     	
     }
+    
+    /*
+     * checkPode - Devuelve la accion a realizar respecto a la poda de cierto bonsai, a partir
+     * de su ultima poda, su edad y su frecuencia de podado.
+     * 
+     * @param id - fila de la base de datos del bonsai a comprobar
+     * @return String con la accion a realizar, o null si no hay que hacer nada.
+     */
     private String checkPode(long id) {
     	String name;
     	String family;
@@ -187,7 +246,7 @@ public class TaskActivity extends ListActivity {
         	
         	// LOGICA DE TRANSPLANTE
         	if(lastpode == 0) return("Set info about " + name + " prunes.");
-        	else if(age < 2) {	// Los bonsais con menos de dos a–os se suelen defoliar al 50% cada 2 meses, aprox
+        	else if(age < 2) {	// Los bonsais con menos de dos aï¿½os se suelen defoliar al 50% cada 2 meses, aprox
         		if(hoursTime - lastpode > 60 * 24) return("Defoliate " + name + " 50%");
         		else return null;
         	}
@@ -195,8 +254,8 @@ public class TaskActivity extends ListActivity {
         	else return null;
         	
         } catch(Exception e) {
-        	System.out.println(e.toString());
+        	System.out.println("checkPode " + e.toString());
         	return null;
         }	
-    }
+    }    
 }

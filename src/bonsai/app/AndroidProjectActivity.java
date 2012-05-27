@@ -1,5 +1,6 @@
 package bonsai.app;
 
+import bonsai.app.alarm.NotificationService;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -8,10 +9,9 @@ import android.os.Bundle;
 import android.widget.TabHost;
 
 public class AndroidProjectActivity extends TabActivity {
-	
 	public static long bonsaiactual;
-	public static boolean iamediting;
 	public static boolean fullversion;
+	public static boolean iamediting;
 	
     // Utilidad de manejo de Base de Datos
 	private BonsaiDbUtil bonsaidb;
@@ -20,6 +20,9 @@ public class AndroidProjectActivity extends TabActivity {
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);	    
+
+	    iamediting = false;
+	    fullversion = true;
 	    
 
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
@@ -35,8 +38,6 @@ public class AndroidProjectActivity extends TabActivity {
     	} catch (Exception e) {
     		bonsaiactual = 0;
     	}
-	    iamediting = false;
-	    fullversion = true;
 	    
 	    setContentView(R.layout.main);
 
@@ -62,7 +63,7 @@ public class AndroidProjectActivity extends TabActivity {
 
 	    // Do the same for the other tabs
 	    intent = new Intent().setClass(this, TaskActivity.class);
-	    spec = tabHost.newTabSpec("calendar").setIndicator("Today Tasks",
+	    spec = tabHost.newTabSpec("calendar").setIndicator("Tasks",
 	                      res.getDrawable(R.drawable.ic_tab_calendar))
 	                  .setContent(intent);
 	    tabHost.addTab(spec);
@@ -75,7 +76,11 @@ public class AndroidProjectActivity extends TabActivity {
 
 	    tabHost.setCurrentTab(0);
 	    
-
+	    if(NotificationService.active == false) {
+	    	intent=new Intent(this, NotificationService.class);  
+	    	startService(intent);
+	    }
+	    
 	    Intent startmessage = new Intent().setClass(this, StartActivity.class);
 	    startActivity(startmessage);
 

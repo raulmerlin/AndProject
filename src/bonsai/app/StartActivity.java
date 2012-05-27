@@ -18,7 +18,7 @@ public class StartActivity extends Activity {
 
     public void goStart(View v) {
     	// Aqu’ sacar’amos el mensaje en el Toast para imprimirlo en un mensajito emergente
-    	//Toast.makeText(this, "Donation Webpage", Toast.LENGTH_LONG).show();
+    	//Toast.makeText(this, "Donation Webpage", Toast.LENGTH_LONG).show();	    
     	finish();
 
     }

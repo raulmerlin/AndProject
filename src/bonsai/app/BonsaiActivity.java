@@ -9,6 +9,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -93,11 +96,12 @@ public class BonsaiActivity extends Activity {
              } else photo.setImageResource(R.drawable.ic_launcher);
              long date = new Date().getTime() / (1000*60*60);
              age.setText("" + ((date - bonsai.getLong(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365*24)));
+             checkWeather();
+             weatherAction();
              checkWater();
              checkTransplant();
              checkPode();
-             checkWeather();
-             weatherAction();
+      
             
              
              
@@ -185,7 +189,7 @@ public class BonsaiActivity extends Activity {
         	
         	if(lastwatered == 0) textWater.setText("Never watered (or no info)");
         	else if(temperature > 35) textWater.setText("You should water 2 times with " + height/4 + " cl today.");
-        	else if(temperature < 0) textWater.setText("It's really cold, you should not water today.");
+        	else if(w.getTempMin() < 0) textWater.setText("It's really cold, you should not water today.");
         	else if((hoursTime - lastwatered) > waterfrec) textWater.setText("You should water today once with " + height/2 +" cl.");
         	else textWater.setText("Water OK. Last watered: " + new Date((long)(lastwatered * (1000*60*60))).toLocaleString().toString().substring(0,16));
         	
@@ -259,7 +263,7 @@ public class BonsaiActivity extends Activity {
         	
         	// LOGICA DE TRANSPLANTE
         	if(lastpode == 0) textPrune.setText("No info about " + name + " prunes.\nMaybe never pruned.");
-        	else if(age < 2) {	// Los bonsais con menos de dos a–os se suelen defoliar al 50% cada 2 meses, aprox
+        	else if(age < 2) {	// Los bonsais con menos de dos aï¿½os se suelen defoliar al 50% cada 2 meses, aprox
         		if(hoursTime - lastpode > 60 * 24) textPrune.setText("Defoliate your bonsai 50%");
         		else textPrune.setText("Your bonsai prune is not necessary");
         	}
@@ -302,7 +306,7 @@ public class BonsaiActivity extends Activity {
     
     public void setTempInfo() {
     	try{
-	   		textWeather.setText(Double.toString(w.getTempMedia())+"¼C");
+	   		textWeather.setText(Integer.toString(w.getTempMedia())+"¼C");
     	} catch (Exception e) {
     	
     	}
@@ -375,30 +379,27 @@ public class BonsaiActivity extends Activity {
 	        s=s.replaceAll(".gif", "");
 	        System.out.println("El nombre del icono que me queda es " + s);
 
+
 	         if(s.equals("icy")){
 	         	if(situation.equals("Exterior"))
 	         	textTemperature.setText("Your Bonsai is frozen, please put it indoor");
-	         		}
-	         if(situation.equals("Interior"))
-	         	textTemperature.setText("Your Bonsai would like to have some sunbathing today");
-	         
-	         if(s.equals("smoke"))
-	         if(s.equals("snow")){
+	         		}	         
+	         if(s.equals("snow")||s.equals("chance_of_snow")){
 	         	if(situation.equals("Exterior"))
 	             	textTemperature.setText("Your Bonsai looks like snowman");
 	         		}
-	         if(s.equals("storm")){
-	         	if(situation.equals("Exterior"))
-	             	textTemperature.setText("Your Bonsai is scare of thunderstorm");
-	         		}
-	         if(s.equals("sunny")){
-	         	if(situation.equals("Interior"))
-	             	textTemperature.setText("Your Bonsai would like to " +
-	             			"have some sunbathing today");
-	         	}
 	         if(s.equals("thunderstorm")){
 	         	if(situation.equals("Exterior"))
 	             	textTemperature.setText("Your Bonsai is scare of thunderstorm");
+	         		}
+	         if(s.equals("sunny")||s.equals("mostly_sunny")){
+	         	if(situation.equals("Interior"))
+	             	textTemperature.setText("Your Bonsai would like to \n" +
+	             			"have some sunbathing today");
+	         	}
+	         else{
+	        	 textTemperature.setText("The weather is ok for you bonsai");
+	        	 
 	         }
        	} catch (Exception e) {
         	
@@ -447,6 +448,25 @@ public class BonsaiActivity extends Activity {
     	bonsaidb.transplantBonsai(AndroidProjectActivity.bonsaiactual, hoursTime);
     	Toast.makeText(this, name + " has been transplanted.", Toast.LENGTH_LONG).show();
     	onResume();
+    }
+    
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.MnuOpc1:
+            	Toast.makeText(this,"Display current information about the status of your bonsai", Toast.LENGTH_LONG).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
     
 }

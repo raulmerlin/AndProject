@@ -6,11 +6,11 @@
     
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>   
-
+	<uses-permission android:name="android.permission.VIBRATE" />
     <uses-sdk android:minSdkVersion="10" />
     
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/bonsai"
         android:label="@string/app_name" >
         <activity
             android:name=".AndroidProjectActivity"
@@ -21,6 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+                  
+		<receiver android:name=".MyReceiver">
+			<intent-filter>
+			
+			</intent-filter>
+		</receiver>
 
         <activity
             android:name=".SelectBonsaiActivity">
@@ -38,6 +45,8 @@
             android:name=".TaskActivity" >
         </activity>
         
+        <service android:name="bonsai.app.alarm.NotificationService"></service>
+        
         <activity
             android:name=".MoreActivity" >
         </activity>
@@ -46,6 +55,10 @@
         <activity
             android:name=".StartActivity" >
         </activity>
+        
+        <service android:name=".AlarmChecker" />
+        
+   
         
     </application>
 
