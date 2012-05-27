@@ -69,13 +69,6 @@ public class BonsaiActivity extends Activity {
         weatherIcon = (ImageView)findViewById(R.id.imageWeather);
         textWeather =(TextView)findViewById(R.id.textweather);
         weatherIcon = (ImageView)findViewById(R.id.imageWeather);
-        
-        bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
-        bonsaidb.open();
-        familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
-        familydb.open();
-
-        
 
     }
 
@@ -85,6 +78,11 @@ public class BonsaiActivity extends Activity {
     public void onResume() {
         super.onResume();
     	 try {
+    		 bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
+    		 bonsaidb.open();
+    		 familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
+    		 familydb.open();
+
          	 Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
              startManagingCursor(bonsai);
              name.setText(bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME)));
@@ -101,16 +99,18 @@ public class BonsaiActivity extends Activity {
              checkWater();
              checkTransplant();
              checkPode();
-      
-            
-             
-             
-             
          	 
          } catch (Exception e) {
          	Toast.makeText(this, "None Bonsai selected", Toast.LENGTH_SHORT).show();
          	
          }
+    }
+    
+    @Override
+    public void onPause() {
+    	super.onPause();
+    	bonsaidb.close();
+    	familydb.close();
     }
 
     
@@ -189,7 +189,6 @@ public class BonsaiActivity extends Activity {
         	
         	if(lastwatered == 0) textWater.setText("Never watered (or no info)");
         	else if(temperature > 35) textWater.setText("You should water 2 times with " + height/4 + " cl today.");
-        	else if(w.getTempMin() < 0) textWater.setText("It's really cold, you should not water today.");
         	else if((hoursTime - lastwatered) > waterfrec) textWater.setText("You should water today once with " + height/2 +" cl.");
         	else textWater.setText("Water OK. Last watered: " + new Date((long)(lastwatered * (1000*60*60))).toLocaleString().toString().substring(0,16));
         	

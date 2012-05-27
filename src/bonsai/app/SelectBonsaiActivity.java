@@ -37,28 +37,16 @@ public class SelectBonsaiActivity extends ListActivity {
             new SimpleCursorAdapter(this, R.layout.bonsai_row, bonsaisCursor, from, to);
         setListAdapter(bonsais);
 
-        
-       /* 
-        Cursor bonsaisCursor2 = bonsaidb.fetchAllBonsais();
-        startManagingCursor(bonsaisCursor2);
-        String[] from2 = new String[]{BonsaiDbUtil.KEY_PHOTO};
-        int[] to2 = new int[]{R.id.bonsaiImage};
-        SimpleCursorAdapter bonsais2 = new SimpleCursorAdapter(this, R.layout.bonsai_row, bonsaisCursor2, from2, to2);
-        setListAdapter(bonsais2);*/
-
-        
     }
+
+    
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         super.onListItemClick(l, v, position, id);
         AndroidProjectActivity.bonsaiactual = id;
         
         try {
-        	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
-            startManagingCursor(bonsai);
-            //String nombre = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
-        	//Toast.makeText(this, "El bonsai actual es: " + nombre, Toast.LENGTH_SHORT).show();
-
+        	bonsaidb.close();
         	AndroidProjectActivity tabs = (AndroidProjectActivity) this.getParent();
         	tabs.changeTab(1);
 

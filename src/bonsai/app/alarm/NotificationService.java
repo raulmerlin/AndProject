@@ -87,7 +87,9 @@ public class NotificationService extends IntentService {
          		if(i < bonsaisCursor.getCount()-1) bonsaisCursor.moveToNext();	// Siguiente bonsai
          }
         bonsaisCursor.close();
-		return false;
+        bonsaidb.close();
+        familydb.close();
+        return false;
 	}
 	
 	/**
@@ -120,30 +122,6 @@ public class NotificationService extends IntentService {
     	        notification.flags |= Notification.FLAG_SHOW_LIGHTS;
         		
         		notificationManager.notify(1, notification);
-
-
-        	/*Context context = getApplicationContext();
-        	CharSequence contentTitle = "My notification";
-        	CharSequence contentText = "Hello World!";
-        	Intent notificationIntent = new Intent(this, AndroidProjectActivity.class);
-        	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-
-        	notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
-	        
-        	final int HELLO_ID = 1;
-
-        	mNotificationManager.notify(HELLO_ID, notification);*/
-	        /*notification.defaults |= Notification.DEFAULT_SOUND;
-	        notification.defaults |= Notification.DEFAULT_VIBRATE;
-	        notification.defaults |= Notification.DEFAULT_LIGHTS;
-	        notification.flags = Notification.FLAG_AUTO_CANCEL;
-	        notification.ledARGB = 0xff00ff00;
-	        notification.ledOnMS = 300;
-	        notification.ledOffMS = 1000;
-	        notification.flags |= Notification.FLAG_SHOW_LIGHTS;*/
-	 
-	        //Lanza la notificacion
-	        //mManager.notify(APP_ID_NOTIFICATION, notification);
 	        
         } catch(Exception e) {
 	            System.out.println(e.toString());
@@ -166,17 +144,19 @@ public class NotificationService extends IntentService {
     	long waterfrec;
     	int height = 30;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
+    	Cursor bonsai = null;
+    	Cursor cfamily = null;
     	
 
         try {
-        	Cursor bonsai = bonsaidb.fetchBonsai(id);
+        	bonsai = bonsaidb.fetchBonsai(id);
         	//startManagingCursor(bonsai);
         	name = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
         	family = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY));
         	lastwatered = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_LAST_WATER));
         	height = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
         	
-        	Cursor cfamily = familydb.fetchFamilybyName(family);
+        	cfamily = familydb.fetchFamilybyName(family);
         	//startManagingCursor(cfamily);
         	waterfrec = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_WATER_FRECUENCY));
         	
@@ -193,6 +173,9 @@ public class NotificationService extends IntentService {
         } catch(Exception e) {
         	System.out.println(e.toString());
         	return null;
+        } finally {
+        	bonsai.close();
+        	cfamily.close();
         }
     	
     }
@@ -212,10 +195,12 @@ public class NotificationService extends IntentService {
     	long age = 1;
     	//int height = 30;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
+    	Cursor bonsai = null;
+    	Cursor cfamily = null;
     	
 
         try {
-        	Cursor bonsai = bonsaidb.fetchBonsai(id);
+        	bonsai = bonsaidb.fetchBonsai(id);
         	//startManagingCursor(bonsai);
         	name = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
         	family = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY));
@@ -225,7 +210,7 @@ public class NotificationService extends IntentService {
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365*24));
         	//height = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
         	
-        	Cursor cfamily = familydb.fetchFamilybyName(family);
+        	cfamily = familydb.fetchFamilybyName(family);
         	//startManagingCursor(cfamily);
         	transplantfrec = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_TRANSPLANT_FRECUENCY));
         	
@@ -244,6 +229,9 @@ public class NotificationService extends IntentService {
         } catch(Exception e) {
         	System.out.println(e.toString());
         	return null;
+        } finally {
+        	bonsai.close();
+        	cfamily.close();
         }
     	
     }
@@ -263,10 +251,11 @@ public class NotificationService extends IntentService {
     	long age = 1;
     	//int height = 30;
     	long hoursTime = (new Date().getTime())/(1000*60*60);
-    	
+    	Cursor bonsai = null;
+    	Cursor cfamily = null;
 
         try {
-        	Cursor bonsai = bonsaidb.fetchBonsai(id);
+        	bonsai = bonsaidb.fetchBonsai(id);
         	//startManagingCursor(bonsai);
         	name = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_NAME));
         	family = bonsai.getString(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_FAMILY));
@@ -276,13 +265,10 @@ public class NotificationService extends IntentService {
                     bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_AGE)))/(365*24));
         	//height = bonsai.getInt(bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_HEIGHT));
         	
-        	Cursor cfamily = familydb.fetchFamilybyName(family);
+        	cfamily = familydb.fetchFamilybyName(family);
         	//startManagingCursor(cfamily);
         	podefrecuency = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_PODE_FRECUENCY));
-        	
-
-        	bonsai.close();
-        	cfamily.close();
+        
         	
         	// LOGICA DE PODA
         	if(lastpode == 0) return("Set info about " + name + " prunes.");
@@ -296,6 +282,9 @@ public class NotificationService extends IntentService {
         } catch(Exception e) {
         	System.out.println(e.toString());
         	return null;
-        }	
+        } finally {
+        	bonsai.close();
+        	cfamily.close();
+        }
     }
 }
