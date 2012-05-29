@@ -13,8 +13,8 @@ import android.content.Intent;
 import android.database.Cursor;
 
 public class NotificationService extends IntentService {
-	public static boolean active = false;
 	public static boolean notificado;
+	public static boolean enabled;
 	private BonsaiDbUtil bonsaidb;
 	private FamilyDbUtil familydb;
 	
@@ -29,9 +29,10 @@ public class NotificationService extends IntentService {
 	protected void onHandleIntent(Intent intent) {
 	    // TODO Auto-generated method stub
 		while(true) {
-			active = true;
 	        try {
-    			Thread.sleep(20000);
+	    		enabled = true;
+    			Thread.sleep(30000);
+                if(!enabled) break;
                 	boolean tarea = checkForTasks();
                 	if(notificado) {
                 		if(tarea) {
@@ -118,7 +119,7 @@ public class NotificationService extends IntentService {
         	Intent notificationIntent = new Intent(this, AndroidProjectActivity.class);
         	PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        		notification.setLatestEventInfo(this, "Bonsai Cares","Nuevas acciones", contentIntent);
+        		notification.setLatestEventInfo(this, "Bonsai Cares","One bonsai needs your cares", contentIntent);
         		
         		 notification.defaults |= Notification.DEFAULT_SOUND;
     	        notification.defaults |= Notification.DEFAULT_VIBRATE;

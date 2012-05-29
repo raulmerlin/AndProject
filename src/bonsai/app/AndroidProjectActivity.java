@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.widget.TabHost;
+import android.widget.Toast;
 
 public class AndroidProjectActivity extends TabActivity {
 	public static long bonsaiactual;
@@ -73,13 +74,17 @@ public class AndroidProjectActivity extends TabActivity {
 
 	    tabHost.setCurrentTab(0);
 	    
-	    if(NotificationService.active == false) {
-	    	intent=new Intent(this, NotificationService.class);  
-	    	startService(intent);
-	    }
+	    intent=new Intent(this, NotificationService.class);  
+	    startService(intent);
+	    
+
+    	Toast.makeText(this,"BonsaiCares Notifications are ON", Toast.LENGTH_LONG).show();
 	    
 	    Intent startmessage = new Intent().setClass(this, StartActivity.class);
 	    startActivity(startmessage);
+	    
+    	Intent miintent=new Intent(this, NotificationService.class);  
+    	stopService(miintent);
 	    
     	} catch (Exception e) {
     		bonsaiactual = 0;

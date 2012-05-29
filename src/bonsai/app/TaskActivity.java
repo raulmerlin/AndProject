@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 /*
@@ -27,6 +28,7 @@ public class TaskActivity extends ListActivity {
 	private FamilyDbUtil familydb;
 	private String[] tasks;
 	private int cont;
+	private Button manageNotifications;
 	
     /** Called when the activity is first created. */
     @Override
@@ -39,6 +41,10 @@ public class TaskActivity extends ListActivity {
     @Override
     public void onResume() {
         super.onResume();
+        
+
+        manageNotifications = (Button)findViewById(R.id.manageNotifications);
+        
     	   bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
            bonsaidb.open();
            familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
@@ -257,5 +263,12 @@ public class TaskActivity extends ListActivity {
         	System.out.println("checkPode " + e.toString());
         	return null;
         }	
-    }    
+    }   
+    
+    public void stopNotifications(View v) {
+    		NotificationService.enabled = false;
+        	Toast.makeText(this,"Notifications are now disabled even the next time Bonsai Cares is opened", Toast.LENGTH_LONG).show();
+        	manageNotifications.setText("Notifications Disabled");
+        	
+    }
 }

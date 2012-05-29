@@ -49,7 +49,7 @@ public final class R {
     }
     public static final class id {
         public static final int ImageView01=0x7f07000d;
-        public static final int MnuOpc1=0x7f070030;
+        public static final int MnuOpc1=0x7f070031;
         public static final int bonsaiImage=0x7f070002;
         public static final int bonsairowtext=0x7f07001b;
         public static final int btnCountry=0x7f070027;
@@ -74,6 +74,7 @@ public final class R {
         public static final int imageView5=0x7f070013;
         public static final int imageWeather=0x7f070008;
         public static final int linearLayout1=0x7f070001;
+        public static final int manageNotifications=0x7f070030;
         public static final int photoURLtext=0x7f070020;
         public static final int podeButton=0x7f070018;
         public static final int relativeLayout1=0x7f070028;
