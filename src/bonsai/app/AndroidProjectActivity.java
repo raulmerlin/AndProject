@@ -77,9 +77,6 @@ public class AndroidProjectActivity extends TabActivity {
 	    intent=new Intent(this, NotificationService.class);  
 	    startService(intent);
 	    
-
-    	Toast.makeText(this,"BonsaiCares Notifications are ON", Toast.LENGTH_LONG).show();
-	    
 	    Intent startmessage = new Intent().setClass(this, StartActivity.class);
 	    startActivity(startmessage);
 	    

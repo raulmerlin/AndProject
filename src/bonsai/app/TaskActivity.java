@@ -266,6 +266,7 @@ public class TaskActivity extends ListActivity {
     }   
     
     public void stopNotifications(View v) {
+    		NotificationService.notificado = false;
     		NotificationService.enabled = false;
         	Toast.makeText(this,"Notifications are now disabled even the next time Bonsai Cares is opened", Toast.LENGTH_LONG).show();
         	manageNotifications.setText("Notifications Disabled");
