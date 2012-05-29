@@ -15,7 +15,6 @@ public class AndroidProjectActivity extends TabActivity {
 	
     // Utilidad de manejo de Base de Datos
 	private BonsaiDbUtil bonsaidb;
-	private FamilyDbUtil familydb;
 	
     /** Called when the activity is first created. */
 	public void onCreate(Bundle savedInstanceState) {
@@ -23,21 +22,19 @@ public class AndroidProjectActivity extends TabActivity {
 
 	    iamediting = false;
 	    fullversion = true;
-	    
+
+    	try {
 
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
-        familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
-        familydb.open();
         
     	Cursor bonsai = bonsaidb.fetchAllBonsais();
     	bonsai.moveToLast();
-    	try {
     		bonsaiactual = bonsai.getInt(
                 bonsai.getColumnIndexOrThrow(BonsaiDbUtil.KEY_ROWID));
-    	} catch (Exception e) {
-    		bonsaiactual = 0;
-    	}
+    	bonsai.close();
+    	bonsaidb.close();
+    	
 	    
 	    setContentView(R.layout.main);
 
@@ -83,6 +80,11 @@ public class AndroidProjectActivity extends TabActivity {
 	    
 	    Intent startmessage = new Intent().setClass(this, StartActivity.class);
 	    startActivity(startmessage);
+	    
+    	} catch (Exception e) {
+    		bonsaiactual = 0;
+    		System.out.println(e.toString());
+    	}
 
 	}
 	

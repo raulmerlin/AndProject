@@ -98,7 +98,8 @@ public class EditBonsaiActivity extends Activity {
         bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
         bonsaidb.open();
 
-        if(AndroidProjectActivity.iamediting) try {
+        if(AndroidProjectActivity.iamediting)
+        	try {
         	Cursor bonsai = bonsaidb.fetchBonsai(AndroidProjectActivity.bonsaiactual);
             startManagingCursor(bonsai);
             
@@ -128,12 +129,20 @@ public class EditBonsaiActivity extends Activity {
         	  	photoURLtext.setText("..." + photo.substring((photo.length() - 18), photo.length()));
         	 }
         	 
+        	 bonsai.close();
+        	 
             
         } catch (Exception e) {
         	Toast.makeText(this, "None bonsai created: " + e.toString(), Toast.LENGTH_LONG).show();
         	
         }
         
+    }
+    
+    @Override
+    public void onStop() {
+    	super.onStop();
+    	bonsaidb.close();
     }
     
     public void selectImage(View v) {

@@ -31,10 +31,10 @@ public class NotificationService extends IntentService {
 		while(true) {
 			active = true;
 	        try {
+    			Thread.sleep(20000);
                 	boolean tarea = checkForTasks();
                 	if(notificado) {
                 		if(tarea) {
-                			Thread.sleep(30000);
                 		} else {
                 			notificado = false;
                 		}	
@@ -43,23 +43,25 @@ public class NotificationService extends IntentService {
                 			notifica();
                 			notificado = true;
                 		} else {
-                			Thread.sleep(30000);
                 		}
                 	}
-	        } catch (InterruptedException e) {
+	        } catch (Exception e) {
 	            // TODO Auto-generated catch block
-	            e.printStackTrace();
+	            System.out.println(e.toString());
 	        }
 	    }
 	}
 	
 	private boolean checkForTasks() {
+		Cursor bonsaisCursor = null;
+		try {
 		 bonsaidb = new BonsaiDbUtil(this);	// Construinos el DDBBAdapter
          bonsaidb.open();
          familydb = new FamilyDbUtil(this);	// Construinos el DDBBAdapter
          familydb.open();
          
-         Cursor bonsaisCursor = bonsaidb.fetchAllBonsais();	// Cogemos todos los bonsais
+         
+         bonsaisCursor = bonsaidb.fetchAllBonsais();	// Cogemos todos los bonsais
          //startManagingCursor(bonsaisCursor);
          
          bonsaisCursor.moveToFirst();		// Cogemos el primer bonsai de todos
@@ -89,7 +91,13 @@ public class NotificationService extends IntentService {
         bonsaisCursor.close();
         bonsaidb.close();
         familydb.close();
-        return false;
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			bonsaisCursor.close();
+			bonsaidb.close();
+			familydb.close();
+		}
+	    return false;
 	}
 	
 	/**
@@ -160,12 +168,7 @@ public class NotificationService extends IntentService {
         	//startManagingCursor(cfamily);
         	waterfrec = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_WATER_FRECUENCY));
         	
-
-        	bonsai.close();
-        	cfamily.close();
-        	
         	// LOGICA DE REGADO
-        	
         	if(lastwatered == 0) return ("Set water info on " + name);
         	else if((hoursTime - lastwatered) > waterfrec) return("Water " + name + " today once with " + height/2 +" cl.");
         	else return null;
@@ -214,8 +217,6 @@ public class NotificationService extends IntentService {
         	//startManagingCursor(cfamily);
         	transplantfrec = cfamily.getInt(cfamily.getColumnIndexOrThrow(FamilyDbUtil.KEY_TRANSPLANT_FRECUENCY));
         	
-        	bonsai.close();
-        	cfamily.close();
         	// LOGICA DE TRANSPLANTE
         	
         	if(age < 2) return null;
