@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 
 public class MoreActivity extends Activity {
 	
@@ -17,6 +19,16 @@ public class MoreActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.more);
         
+        final Button btn = (Button)findViewById(R.id.contactbutton);
+        btn.setOnClickListener(new OnClickListener() {
+          public void onClick(View arg0) {
+              Intent intent = new Intent(MoreActivity.this, EnvioMailActivity.class);
+              Bundle bundle = new Bundle();
+              bundle.putString("MAIL", "raulmerlin@gmail.com ; rubevalero@gmail.com");
+              intent.putExtras(bundle);
+              startActivity(intent);
+          }
+    });
         
     }
     

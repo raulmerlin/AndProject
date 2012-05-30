@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout android:id="@+id/LinearLayout01"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:orientation="vertical"
+	   xmlns:android="http://schemas.android.com/apk/res/android">
+
+<LinearLayout android:id="@+id/LinearLayout02"
+	android:layout_width="wrap_content"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal">
+
+    	<TextView android:text="To: "
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/txtForEmail"></TextView>
+    	
+    	<TextView
+    	    android:id="@+id/etEmail"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:text="mail Receiver" />
+
+</LinearLayout>
+
+	<LinearLayout android:id="@+id/LinearLayout03"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:orientation="horizontal">
+	<TextView android:text="Subject"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/txtForSubject"></TextView>
+	<EditText android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:width="170dip"
+		android:id="@+id/etSubject">
+	</EditText>
+	</LinearLayout>
+	<LinearLayout android:id="@+id/LinearLayout04"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:orientation="horizontal">
+	<TextView android:text="Menssage"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/txtForBody"></TextView>
+	<EditText android:layout_width="wrap_content"
+	  	android:layout_height="wrap_content"
+	  	android:lines="5"
+		android:width="300dip"
+		android:id="@+id/etBody">
+	</EditText>
+	</LinearLayout>
+	<CheckBox android:text="Send attachment aplication icon"
+		android:id="@+id/chkAttachment"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"></CheckBox>
+	<Button android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:id="@+id/btnSend"
+		android:text="Send"
+		android:imeOptions="actionSend"
+		android:width="150dip">
+	</Button>
+</LinearLayout>

@@ -119,7 +119,7 @@ public class TaskActivity extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.MnuOpc1:
-            	Toast.makeText(this,"Displays the daily care of your bonsai. Press Alarm ON / OFF to enable / disable notifications for the taskbar of your device", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this,"Displays the daily care of your bonsai.", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -266,8 +266,10 @@ public class TaskActivity extends ListActivity {
     }   
     
     public void stopNotifications(View v) {
-    		NotificationService.notificado = false;
+    		NotificationService.notificado = true;
     		NotificationService.enabled = false;
+    		Intent miintent=new Intent(this, NotificationService.class);  
+        	stopService(miintent);
         	Toast.makeText(this,"Notifications are now disabled even the next time Bonsai Cares is opened", Toast.LENGTH_LONG).show();
         	manageNotifications.setText("Notifications Disabled");
         	

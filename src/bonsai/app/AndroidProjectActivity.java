@@ -80,8 +80,8 @@ public class AndroidProjectActivity extends TabActivity {
 	    Intent startmessage = new Intent().setClass(this, StartActivity.class);
 	    startActivity(startmessage);
 	    
-    	Intent miintent=new Intent(this, NotificationService.class);  
-    	stopService(miintent);
+    	//Intent miintent=new Intent(this, NotificationService.class);  
+    	//stopService(miintent);
 	    
     	} catch (Exception e) {
     		bonsaiactual = 0;

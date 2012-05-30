@@ -452,7 +452,7 @@ public class BonsaiActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu);
+        inflater.inflate(R.menu.menubonsai, menu);
         return true;
     }
     
@@ -462,6 +462,14 @@ public class BonsaiActivity extends Activity {
             case R.id.MnuOpc1:
             	Toast.makeText(this,"Display current information about the status of your bonsai", Toast.LENGTH_LONG).show();
                 return true;
+                
+            case R.id.MnuOpc2:
+            	Intent intent = new Intent(BonsaiActivity.this, EnvioMailActivity.class);
+            	Bundle bundle = new Bundle();
+            	bundle.putString("MAIL", "globereds@gmail.com");
+            	intent.putExtras(bundle);       
+            	startActivity(intent);
+            	return true;
 
             default:
                 return super.onOptionsItemSelected(item);
