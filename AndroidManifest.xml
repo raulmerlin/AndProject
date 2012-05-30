@@ -56,6 +56,10 @@
             android:name=".StartActivity" >
         </activity>
         
+                <activity
+            android:name=".EnvioMailActivity" >
+        </activity>
+        
         <service android:name=".AlarmChecker" />
         
    

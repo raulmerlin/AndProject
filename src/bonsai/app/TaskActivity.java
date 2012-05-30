@@ -113,7 +113,7 @@ public class TaskActivity extends ListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.MnuOpc1:
-            	Toast.makeText(this,"Displays the daily care of your bonsai. Press Alarm ON / OFF to enable / disable notifications for the taskbar of your device", Toast.LENGTH_LONG).show();
+            	Toast.makeText(this,"Displays the daily care of your bonsai.", Toast.LENGTH_LONG).show();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -123,7 +123,7 @@ public class TaskActivity extends ListActivity {
     
     /*
      * checkWater - Devuelve la accion a realizar respecto al riego de cierto bonsai, a partir
-     * de su ultimo riego, su frecuencia de regado y su tama–o.
+     * de su ultimo riego, su frecuencia de regado y su tamaï¿½o.
      * 
      * @param id - fila de la base de datos del bonsai a comprobar
      * @return String con la accion a realizar, o null si no hay que hacer nada.
